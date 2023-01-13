@@ -7,7 +7,7 @@ function MainHeader() {
   return (
     <header
       className={'w-full px-5 py-2.5 flex items-center justify-between bg-white border-b border-gray-100 shadow-sm-custom'
-    + ' lg:px-[21.625rem]'}
+    + ' lg:mainWidthLimit'}
     >
       <Link href='/' className='relative w-[5.8125rem] h-[1.25rem]'>
         <Image

@@ -1,0 +1,1 @@
+export const DESKTOP_MAX_WIDTH: number = 50 // 800px

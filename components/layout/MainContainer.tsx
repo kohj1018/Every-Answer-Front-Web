@@ -5,9 +5,8 @@ import Head from 'next/head'
 
 interface Props {
   children: React.ReactNode
-  mainCss: string
 }
-function MainContainer({ children, mainCss }: Props) {
+function MainContainer({ children }: Props) {
   return (
     <>
       <Head>
@@ -15,9 +14,7 @@ function MainContainer({ children, mainCss }: Props) {
       </Head>
 
       <MainHeader />
-      <main className={mainCss}>
-        {children}
-      </main>
+      {children}
       <MainFooter />
     </>
   )
