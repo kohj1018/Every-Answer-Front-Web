@@ -2,7 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+/* html, body, heading */
 @layer base {
+  @media screen and (max-width: 768px) {
+    /* 웹을 앱 같이 보이게 바꿔주는 부분 */
+    html {
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    }
+  }
+
   html, body {
     @apply p-0 m-0 font-pretendard
   }
@@ -13,5 +23,25 @@
 
   * {
     @apply box-border
+  }
+}
+
+/* custom classNames */
+@layer components {
+  /*.h-webkit-fill-available {*/
+  /*  min-height: 100vh;*/
+  /*  @supports (-webkit-appearance:none) and (stroke-color: transparent) {*/
+  /*    min-height: -webkit-fill-available;*/
+  /*  }*/
+  /*}*/
+
+  .ellipsisTwoLine {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: break-word;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical
   }
 }

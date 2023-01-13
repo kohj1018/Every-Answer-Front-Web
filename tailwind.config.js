@@ -15,6 +15,13 @@ module.exports = {
         'sm-custom': '0px 1px 24px rgba(0, 0, 0, 0.04)'
       }
     },
+    screens: {
+      'md': '768px',  //
+      // => @media (min-width: 768px) { ... }
+      'lg': '1024px'  // laptop
+      // => @media (min-width: 1024px) { ... }
+    }
   },
+
   plugins: [],
 }
