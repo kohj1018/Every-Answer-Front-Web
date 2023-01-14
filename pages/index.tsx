@@ -15,14 +15,14 @@ const Home: NextPage = () => {
         {/* 메인 피드 */}
         <div className='space-y-3'>
           <header className='flex items-center justify-between'>
-            <h2 className='text-base font-semibold text-gray-900'>Q&A</h2>
+            <h2 className='text-xl font-semibold text-gray-900'>Q&A</h2>
             {/*<button className='pl-3 pr-1.5 py-1 flex items-center rounded bg-white border border-gray-200'>*/}
             {/*  <p className='text-xs font-semibold text-gray-400'>최신순</p>*/}
             {/*  <ChevronDown className='w-3.5 h-3.5 text-gray-400' />*/}
             {/*</button>*/}
           </header>
 
-          <section className='space-y-2.5'>
+          <section className='space-y-2.5 lg:space-y-3.5'>
             <QuestionPreview />
             <QuestionPreview />
             <QuestionPreview />

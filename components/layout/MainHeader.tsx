@@ -9,7 +9,7 @@ function MainHeader() {
       className={'w-full px-5 py-2.5 flex items-center justify-between bg-white border-b border-gray-100 shadow-sm-custom'
     + ' lg:mainWidthLimit'}
     >
-      <Link href='/' className='relative w-[5.8125rem] h-[1.25rem]'>
+      <Link href='/' className='relative w-[6.6875rem] h-[1.5rem] lg:w-[8.3125rem] lg:h-[1.875rem]'>
         <Image
           src={mainLogo}
           fill
@@ -19,11 +19,11 @@ function MainHeader() {
       </Link>
 
       <section className='flex items-center space-x-2'>
-        <button className='px-3 py-1.5 rounded-3xl bg-blue-500 text-xs font-semibold text-gray-50'>
+        <button className='px-3 py-1.5 rounded-3xl bg-blue-500 text-sm font-semibold text-gray-50 lg:px-4 lg:py-2'>
           질문하기
         </button>
-        <button className='p-1.5 bg-gray-100 rounded-full'>
-          <User className='w-4 h-4 text-gray-400' />
+        <button className='p-2 bg-gray-100 rounded-full'>
+          <User className='w-4 h-4 text-gray-400 lg:w-5 lg:h-5' />
         </button>
       </section>
     </header>

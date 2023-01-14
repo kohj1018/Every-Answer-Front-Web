@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import mainLogo from '../../public/mainLogo.svg'
 import SearchBtn from './SearchBtn'
-import { ArrowUpRight } from 'react-feather'
+import { ArrowUpRight, Search } from 'react-feather'
 import Link from 'next/link'
 
 function MainFooter() {
@@ -21,9 +21,13 @@ function MainFooter() {
             alt='메인 로고'
           />
         </div>
-        <div className='hidden lg:block'>
-          <SearchBtn />
-        </div>
+        <Link
+          href='/'
+          className='hidden w-full pl-6 pr-4 py-3 items-center justify-between rounded-3xl bg-gray-50 lg:flex'
+        >
+          <p className='text-xs font-semibold text-gray-400'>궁금한 전공 질문을 검색해보세요</p>
+          <Search className='w-5 h-5 text-gray-500' />
+        </Link>
       </article>
 
       <article className={'w-full space-y-4' + ' lg:w-fit'}>
