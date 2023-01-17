@@ -4,11 +4,16 @@ import SearchBtn from './SearchBtn'
 import { ArrowUpRight, Search } from 'react-feather'
 import Link from 'next/link'
 
-function MainFooter() {
+interface Props {
+  isHiddenHeaderAndFooterOnMobile: boolean
+}
+
+function MainFooter({ isHiddenHeaderAndFooterOnMobile }: Props) {
   return (
     <footer
-      className={'mt-12 w-full px-5 py-8 flex flex-wrap justify-between bg-gray-100 gap-y-4'
-    + ' lg:mt-20 lg:px-[8.875rem] lg:py-[3rem]'}>
+      className={'mt-12 w-full px-5 py-8 flex flex-wrap justify-between bg-gray-100 gap-y-4' + ' lg:mt-20 lg:px-[8.875rem] lg:py-[3rem]'
+    + (isHiddenHeaderAndFooterOnMobile ? ' hidden lg:flex' : '')}
+    >
 
       <article className={'w-full space-y-3' + ' lg:w-[15.125rem]'}>
         <div

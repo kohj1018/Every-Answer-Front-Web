@@ -49,4 +49,9 @@
     padding-left: calc((100% - 50rem) / 2);
     padding-right: calc((100% - 50rem) / 2);
   }
+
+  .moveToCenter {
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }

@@ -12,7 +12,9 @@ module.exports = {
         pretendard: ['Pretendard', ...defaultTheme.fontFamily.sans]
       },
       boxShadow: {
-        'sm-custom': '0px 1px 24px rgba(0, 0, 0, 0.04)'
+        'sm-custom': '0px 1px 24px rgba(0, 0, 0, 0.04)',
+        'floating-action-btn': '0px 4px 20px rgba(0, 0, 0, 0.08)',
+        'button': '0px 4px 24px rgba(0, 0, 0, 0.14)'
       }
     },
     screens: {
@@ -23,5 +25,5 @@ module.exports = {
     }
   },
 
-  plugins: [],
+  plugins: [require("tailwind-scrollbar-hide")],
 }
