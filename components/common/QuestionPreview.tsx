@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { QuestionPostType } from '../../utils/types/responseTypes'
 import { useEffect, useState } from 'react'
 import { getElapsedTime } from '../../utils/functions/getElapsedTime'
+import useLocalStorage from 'use-local-storage'
 
 interface Props {
   questionPost: QuestionPostType
@@ -12,6 +13,7 @@ interface Props {
 function QuestionPreview({ questionPost }: Props) {
   const { questionPostId, user, deptClass, title, content, createdAt, updatedAt, answerPostsCnt } = questionPost
   const [elapsedTime, setElapsedTime] = useState<string>('0분 전')
+  const [scrollY, setScrollY] = useLocalStorage('post_list_scroll', 0)  // scrollY를 useLocalStorage로 세팅
 
   useEffect(() => {
     setElapsedTime(getElapsedTime(createdAt))
@@ -21,6 +23,7 @@ function QuestionPreview({ questionPost }: Props) {
     <Link
       href={`/question/${questionPostId}`}
       className='block px-5 py-4 rounded-xl bg-gray-50'
+      onClick={() => setScrollY(window.scrollY)}  // 클릭할 때 window.scrollY 저장
     >
       <header className='flex items-center justify-between'>
         <DeptClassTag name={deptClass.name} />

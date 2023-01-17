@@ -2,6 +2,7 @@ import axios from 'axios'
 import { AddQuestionPostType, AddUserType } from './types/addRequestTypes'
 import { UpdateQuestionPostRequestType, UpdateUserRequestType } from './types/updateRequestTypes'
 import { QuestionPostType } from './types/responseTypes'
+import { INFINITE_SCROLL_LOAD_SIZE } from './config'
 
 const BASE_URL = 'http://ec2-3-34-229-56.ap-northeast-2.compute.amazonaws.com:8080/api/v1'
 
@@ -50,7 +51,7 @@ export const questionPostsApi = {
 
 /** 메인 화면 질문글 무한 스크롤 */
 export const getInfiniteQuestionPostList = async (lastPostId: number) => {
-  const res = await ec2.get(`/questionPosts?lastPostId=${lastPostId}&size=20`)
+  const res = await ec2.get(`/questionPosts?lastPostId=${lastPostId}&size=${INFINITE_SCROLL_LOAD_SIZE}`)
   const postList: QuestionPostType[] = res.data
   return { postList, nextLastPostId: postList[postList.length - 1].questionPostId, isLast: postList.length < 20 }
 }

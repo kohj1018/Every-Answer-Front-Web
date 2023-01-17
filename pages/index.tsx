@@ -8,22 +8,31 @@ import { useInfiniteQuery } from 'react-query'
 import { getInfiniteQuestionPostList } from '../utils/api'
 import { useEffect } from 'react'
 import React from 'react'
+import { ARBITRARY_LARGEST_LAST_QUESTIONPOST_ID } from '../utils/config'
+import useLocalStorage from 'use-local-storage'
 
 const Home: NextPage = () => {
   const { ref, inView } = useInView()
   const { data, isLoading, isError, fetchNextPage, isFetchingNextPage } = useInfiniteQuery(
     'infiniteQuestionPosts',
-    ({ pageParam = 9999 }) => getInfiniteQuestionPostList(pageParam),
+    ({ pageParam = ARBITRARY_LARGEST_LAST_QUESTIONPOST_ID }) => getInfiniteQuestionPostList(pageParam),
     {
       getNextPageParam: (lastPage) =>
         !lastPage.isLast ? lastPage.nextLastPostId : undefined
     }
   )
+  const [scrollY] = useLocalStorage('post_list_scroll', 0)
 
+  // 바닥에 닿으면 새로 불러오기
   useEffect(() => {
     if (inView) fetchNextPage()
   }, [inView])
 
+  // 스크롤 위치 유지
+  useEffect(() => {
+    // 기본값이 "0"이기 때문에 스크롤 값이 저장됐을 때에만 window를 스크롤 시킴
+    if (scrollY.toString() !== '0') window.scrollTo(0, Number(scrollY))
+  }, [])
 
 
   if (isLoading) return <p>loading...</p>
