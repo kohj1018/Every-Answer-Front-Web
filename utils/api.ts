@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { AddQuestionPostType, AddUserType } from './types/addRequestTypes'
 import { UpdateQuestionPostRequestType, UpdateUserRequestType } from './types/updateRequestTypes'
+import { QuestionPostType } from './types/responseTypes'
 
 const BASE_URL = 'http://ec2-3-34-229-56.ap-northeast-2.compute.amazonaws.com:8080/api/v1'
 
@@ -34,7 +35,6 @@ export const usersApi = {
 
 export const questionPostsApi = {
   getQuestionPostById: async (questionPostId: number) => await ec2.get(`/questionPosts/${questionPostId}`),
-  getInfiniteQuestionPosts: async (lastPostId: number, size: number) => await ec2.get(`/questionPosts?lastPostId=${lastPostId}&size=${size}`),
   updateQuestionPost: async (questionPostId: number, updateQuestionPostRequest: UpdateQuestionPostRequestType) => await ec2.put(`/questionPosts/${questionPostId}`, {
     deptId: updateQuestionPostRequest.deptId,
     title: updateQuestionPostRequest.title,
@@ -46,4 +46,11 @@ export const questionPostsApi = {
     title: addQuestionPostRequest.title,
     content: addQuestionPostRequest.content
   })
+}
+
+/** 메인 화면 질문글 무한 스크롤 */
+export const getInfiniteQuestionPostList = async (lastPostId: number) => {
+  const res = await ec2.get(`/questionPosts?lastPostId=${lastPostId}&size=20`)
+  const postList: QuestionPostType[] = res.data
+  return { postList, nextLastPostId: postList[postList.length - 1].questionPostId, isLast: postList.length < 20 }
 }

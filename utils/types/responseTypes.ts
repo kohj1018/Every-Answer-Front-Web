@@ -28,6 +28,7 @@ export interface QuestionPostType {
   content: string
   createdAt: Dayjs
   updatedAt: Dayjs | null
+  answerPostsCnt: number
 }
 
 export interface AnswerPostType {
