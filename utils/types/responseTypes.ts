@@ -15,8 +15,8 @@ export interface UserType {
   entranceYear: number
   oauthId: string
   refreshToken: string
-  createdAt: Dayjs
-  updatedAt: Dayjs | null
+  createdAt: string
+  updatedAt: string | null
   isDelete: boolean
 }
 
@@ -26,8 +26,8 @@ export interface QuestionPostType {
   deptClass: DeptClassType
   title: string
   content: string
-  createdAt: Dayjs
-  updatedAt: Dayjs | null
+  createdAt: string
+  updatedAt: string | null
   answerPostsCnt: number
 }
 
@@ -37,6 +37,6 @@ export interface AnswerPostType {
   user: UserType
   likeNum: number
   content: string
-  createdAt: Dayjs
-  updatedAt: Dayjs
+  createdAt: string
+  updatedAt: string | null
 }

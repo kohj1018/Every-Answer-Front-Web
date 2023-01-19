@@ -4,14 +4,14 @@ import MainContainer from '../components/layout/MainContainer'
 import React, { useState } from 'react'
 import { ChevronLeft } from 'react-feather'
 import { useMutation, useQueryClient } from 'react-query'
-import { questionPostsApi } from '../utils/api'
+import { addQuestionPost } from '../utils/apis/questionPostsApi'
 
 const AddQuestion: NextPage = () => {
   const queryClient = useQueryClient()
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
 
-  const questionPostMutation = useMutation(questionPostsApi.addQuestionPost, {
+  const questionPostMutation = useMutation(addQuestionPost, {
     onSuccess: () => {
       queryClient.invalidateQueries('infiniteQuestionPosts')
       alert('등록 성공!')

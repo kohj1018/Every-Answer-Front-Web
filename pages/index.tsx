@@ -5,11 +5,11 @@ import MainContainer from '../components/layout/MainContainer'
 import Link from 'next/link'
 import { useInView } from 'react-intersection-observer'
 import { useInfiniteQuery } from 'react-query'
-import { getInfiniteQuestionPostList } from '../utils/api'
 import { useEffect } from 'react'
 import React from 'react'
 import { ARBITRARY_LARGEST_LAST_QUESTIONPOST_ID } from '../utils/config'
 import useLocalStorage from 'use-local-storage'
+import { getInfiniteQuestionPostList } from '../utils/apis/questionPostsApi'
 
 const Home: NextPage = () => {
   const { ref, inView } = useInView()
@@ -40,7 +40,7 @@ const Home: NextPage = () => {
 
   return (
     <MainContainer>
-      <main className='pt-8 px-5 lg:pt-12 lg:mainWidthLimit'>
+      <main className='paddingHeader pt-8 px-5 lg:pt-12 lg:mainWidthLimit'>
         {/* 메인 피드 */}
         <h2 className='text-xl font-semibold text-gray-900'>Q&A</h2>
         <section className='mt-4 space-y-2.5 lg:mt-6 lg:space-y-3.5'>

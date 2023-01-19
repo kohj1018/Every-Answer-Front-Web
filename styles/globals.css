@@ -35,6 +35,10 @@
   /*  }*/
   /*}*/
 
+  .paddingHeader {
+    @apply mt-[3.5625rem] lg:mt-[3.8125rem]
+  }
+
   .ellipsisTwoLine {
     text-overflow: ellipsis;
     overflow: hidden;

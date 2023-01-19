@@ -10,7 +10,7 @@ interface Props {
 function MainHeader({ isHiddenHeaderAndFooterOnMobile }: Props) {
   return (
     <header
-      className={'w-full px-5 py-3 flex items-center justify-between bg-white border-b border-gray-100 shadow-sm-custom' + ' lg:mainWidthLimit'
+      className={'fixed top-0 inset-x-0 px-5 py-3 flex items-center justify-between bg-white border-b border-gray-100 shadow-sm-custom' + ' lg:mainWidthLimit'
     + (isHiddenHeaderAndFooterOnMobile ? ' hidden lg:flex' : '')}
     >
       <Link
