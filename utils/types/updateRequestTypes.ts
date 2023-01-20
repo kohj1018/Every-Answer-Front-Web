@@ -14,3 +14,7 @@ export interface UpdateQuestionPostRequestType {
   title: string,
   content: string
 }
+
+export interface UpdateAnswerPostRequestType {
+  content: string
+}

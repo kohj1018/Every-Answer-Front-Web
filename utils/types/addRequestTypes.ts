@@ -14,3 +14,10 @@ export interface AddQuestionPostType {
   title: string,
   content: string
 }
+
+export interface AddAnswerPostType {
+  questionPostId: number,
+  userId: number,
+  likeNum: number,  // default 0
+  content: string
+}

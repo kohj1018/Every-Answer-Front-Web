@@ -47,23 +47,37 @@ const QuestionPost: NextPage = () => {
         </Suspense>
 
         {/* 답변 영역 */}
-        <section className='px-5 py-6 bg-gray-50 lg:mainWidthLimit'>
-          {/* 답변 유도 버튼 */}
-          <article className='px-4 py-3 flex items-center justify-between rounded bg-gray-100 lg:px-6 lg:py-5'>
-            <p className='text-base font-semibold text-gray-400 lg:text-lg'>kohj1018님, 답변을 달아주세요!</p>
-            <Link href='/' className='px-3 py-2 rounded bg-green-500 text-center'>
-              <p className='text-sm text-semibold text-gray-50 lg:text-lg'>답변하기</p>
-            </Link>
-          </article>
+        <Suspense fallback={<p>loading...</p>}>
+          <section className='px-5 py-6 bg-gray-50 lg:mainWidthLimit'>
+            {/* 답변 유도 버튼 */}
+            <article className='px-4 py-3 flex items-center justify-between rounded bg-gray-100 lg:px-6 lg:py-5'>
+              <p className='text-base font-semibold text-gray-400 lg:text-lg'>kohj1018님, 답변을 달아주세요!</p>
+              <Link
+                href={{
+                  pathname: '/addAnswer',
+                  query: {
+                    questionPostId: questionPostId,
+                    deptClassName: questionPost?.deptClass.name,
+                    questionTitle: questionPost?.title,
+                    questionContent: questionPost?.content,
+                    questionUserNickname: questionPost?.user.nickname,
+                    questionCreatedAt: questionPost?.createdAt
+                  }
+                }}
+                className='px-3 py-2 rounded bg-green-500 text-center'
+              >
+                <p className='text-sm text-semibold text-gray-50 lg:text-lg'>답변하기</p>
+              </Link>
+            </article>
 
-          {/* 답변 글들 */}
-          <section className='mt-6'>
-            <header className='flex items-center space-x-1.5'>
-              <p className='text-lg font-semibold text-gray-900 lg:text-2xl'>답변</p>
-              <p className='px-1.5 py-0.5 rounded-full bg-blue-100 text-center text-xs font-semibold text-blue-600 lg:px-3 lg:text-lg'>{questionPost?.answerPostsCnt}</p>
-            </header>
+            {/* 답변 글들 */}
+            <section className='mt-6'>
+              <header className='flex items-center space-x-1.5'>
+                <p className='text-lg font-semibold text-gray-900 lg:text-2xl'>답변</p>
+                <p className='px-1.5 py-0.5 rounded-full bg-blue-100 text-center text-xs font-semibold text-blue-600 lg:px-3 lg:text-lg'>{questionPost?.answerPostsCnt}</p>
+              </header>
 
-            <Suspense fallback={<p>loading...</p>}>
+
               <section className='mt-3 space-y-3 lg:mt-6 lg:space-y-4'>
                 {answerPostList?.map((answerPost) =>
                   <Answer
@@ -78,9 +92,9 @@ const QuestionPost: NextPage = () => {
                   />
                 )}
               </section>
-            </Suspense>
+            </section>
           </section>
-        </section>
+        </Suspense>
       </main>
     </MainContainer>
   )
