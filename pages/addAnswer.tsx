@@ -4,7 +4,7 @@ import MobileCancelHeader from '../components/layout/mobileHeader/MobileCancelHe
 import DeptClassTag from '../components/tag/DeptClassTag'
 import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
-import { Camera, ChevronLeft, FileText } from 'react-feather'
+import { Image, ChevronLeft, FileText } from 'react-feather'
 import React, { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 import { addAnswerPost } from '../utils/apis/answerPostsApi'
@@ -66,7 +66,7 @@ const AddAnswer: NextPage = () => {
           <div className='border-b border-gray-100'>
             <section className='px-5 py-4 flex items-center space-x-4 lg:mainWidthLimit'>
               <button className='flex items-center space-x-1.5'>
-                <Camera className='w-6 h-6 text-gray-600' />
+                <Image className='w-6 h-6 text-gray-600' />
                 <p className='text-sm font-semibold text-gray-400 lg:text-lg'>사진첨부</p>
               </button>
               <button className='flex items-center space-x-1.5'>

@@ -3,6 +3,7 @@ import type { AppProps } from 'next/app'
 import Layout from '../components/layout/Layout'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
+import { SessionProvider } from 'next-auth/react'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -17,9 +18,11 @@ export default function App({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       {/* devtools */}
       <ReactQueryDevtools initialIsOpen={true} />
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <SessionProvider session={pageProps.session}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </SessionProvider>
     </QueryClientProvider>
   )
 }

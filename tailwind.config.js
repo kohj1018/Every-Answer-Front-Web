@@ -9,7 +9,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        pretendard: ['Pretendard', ...defaultTheme.fontFamily.sans]
+        pretendard: ['Pretendard', ...defaultTheme.fontFamily.sans],
+        roboto: ['Roboto', ...defaultTheme.fontFamily.sans]
       },
       boxShadow: {
         'sm-custom': '0px 1px 24px rgba(0, 0, 0, 0.04)',

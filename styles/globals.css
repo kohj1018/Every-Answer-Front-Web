@@ -54,8 +54,16 @@
     padding-right: calc((100% - 50rem) / 2);
   }
 
-  .moveToCenter {
+  .moveToXaxisCenter {
     left: 50%;
     transform: translateX(-50%);
   }
+
+  .moveToCenter {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+
 }

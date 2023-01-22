@@ -9,6 +9,18 @@ export const getUserById = async (userId: number): Promise<UserType> => {
   return res.data
 }
 
+/** OauthId로 유저 Id 불러오기 */
+export const getUserIdByOauthId = async (oauthId: string): Promise<number> => {
+  const res = await ec2.get<number>(`/users/oauth/${oauthId}`)
+  return res.data
+}
+
+/** nickname 중복확인 */
+export const checkNicknameDuplicate = async (nickname: string): Promise<boolean> => {
+  const res = await ec2.get<boolean>(`/users/nicknameCheck/${nickname}`)
+  return res.data
+}
+
 /** 유저 정보 수정하기 */
 export const updateUser = (userId: number, updateUserRequest: UpdateUserRequestType) => ec2.put(`/users/${userId}`, {
   deptId: updateUserRequest.deptId,
@@ -32,3 +44,4 @@ export const addUser = (addUserRequest: AddUserType) => ec2.post('/users', {
   refreshToken: addUserRequest.refreshToken,
   isDelete: false
 })
+

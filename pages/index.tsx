@@ -60,7 +60,7 @@ const Home: NextPage = () => {
       {/* 질문하기 FAB */}
       <Link
         href='addQuestion'
-        className={'fixed bottom-6 moveToCenter px-4 py-2 flex items-center justify-center space-x-1 bg-white rounded-3xl border-2 border-gray-300 shadow-floating-action-btn lg:bottom-24'
+        className={'fixed bottom-6 moveToXaxisCenter px-4 py-2 flex items-center justify-center space-x-1 bg-white rounded-3xl border-2 border-gray-300 shadow-floating-action-btn lg:bottom-24'
       + ' lg:px-20 lg:py-3'}
       >
         <Edit3 className='w-5 h-5 text-blue-500' />
