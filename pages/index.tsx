@@ -8,8 +8,8 @@ import { useInfiniteQuery } from 'react-query'
 import { useEffect } from 'react'
 import React from 'react'
 import { ARBITRARY_LARGEST_LAST_QUESTIONPOST_ID } from '../utils/config'
-import useLocalStorage from 'use-local-storage'
 import { getInfiniteQuestionPostList } from '../utils/apis/questionPostsApi'
+import { useScrollYStore } from '../stores/stores'
 
 const Home: NextPage = () => {
   const { ref, inView } = useInView()
@@ -21,7 +21,7 @@ const Home: NextPage = () => {
         !lastPage.isLast ? lastPage.nextLastPostId : undefined
     }
   )
-  const [scrollY] = useLocalStorage('post_list_scroll', 0)
+  const scrollY = useScrollYStore(state => state.scrollY) // 스크롤 위치 저장
 
   // 바닥에 닿으면 새로 불러오기
   useEffect(() => {

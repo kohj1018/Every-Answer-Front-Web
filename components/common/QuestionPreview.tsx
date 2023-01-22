@@ -4,7 +4,8 @@ import Link from 'next/link'
 import { QuestionPostType } from '../../utils/types/responseTypes'
 import { useEffect, useState } from 'react'
 import { getElapsedTime } from '../../utils/functions/getElapsedTime'
-import useLocalStorage from 'use-local-storage'
+import dayjs from 'dayjs'
+import { useScrollYStore } from '../../stores/stores'
 
 interface Props {
   questionPost: QuestionPostType
@@ -13,10 +14,10 @@ interface Props {
 function QuestionPreview({ questionPost }: Props) {
   const { questionPostId, user, deptClass, title, content, createdAt, updatedAt, answerPostsCnt } = questionPost
   const [elapsedTime, setElapsedTime] = useState<string>('0분 전')
-  const [scrollY, setScrollY] = useLocalStorage('post_list_scroll', 0)  // scrollY를 useLocalStorage로 세팅
+  const setScrollY = useScrollYStore(state => state.setScrollY) // scrollY 세팅
 
   useEffect(() => {
-    setElapsedTime(getElapsedTime(createdAt))
+    setElapsedTime(getElapsedTime(dayjs(createdAt)))
   }, [createdAt])
 
   return (
