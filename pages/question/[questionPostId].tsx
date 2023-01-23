@@ -10,15 +10,19 @@ import Link from 'next/link'
 import React, { Suspense } from 'react'
 import { getQuestionPostById } from '../../utils/apis/questionPostsApi'
 import { getAnswerPostListByQuestionPostId } from '../../utils/apis/answerPostsApi'
-import Answer from '../../components/common/Answer'
+import { Answer, AnswerWithoutUserInfo } from '../../components/common/Answer'
 import { ChevronLeft } from 'react-feather'
+import { useSignInInfoStore } from '../../stores/localStorageStore/stores'
+import { useSnackbarOpen } from '../../stores/stores'
 
 
 const QuestionPost: NextPage = () => {
   const router = useRouter()
+  const userId = useSignInInfoStore(state => state.userId)
   const questionPostId: number = parseInt(router.query.questionPostId as string)
   const { data: questionPost } = useQuery<QuestionPostType>(['questionPost', questionPostId], () => getQuestionPostById(questionPostId))
   const { data: answerPostList } = useQuery<AnswerPostType[]>(['answerPostList', questionPostId], () => getAnswerPostListByQuestionPostId(questionPostId))
+  const { setMessage, setIsSnackbarOpen } = useSnackbarOpen()
 
 
   return (
@@ -79,17 +83,40 @@ const QuestionPost: NextPage = () => {
 
 
               <section className='mt-3 space-y-3 lg:mt-6 lg:space-y-4'>
-                {answerPostList?.map((answerPost) =>
-                  <Answer
-                    key={answerPost.answerPostId}
-                    userId={answerPost.user.userId}
-                    nickname={answerPost.user.nickname}
-                    deptName={answerPost.user.deptName}
-                    likeNum={answerPost.likeNum}
-                    content={answerPost.content}
-                    createdAt={answerPost.createdAt}
-                    updatedAt={answerPost.updatedAt}
-                  />
+                {userId ? (
+                  answerPostList?.map((answerPost) =>
+                    <Answer
+                      key={answerPost.answerPostId}
+                      questionPostId={answerPost.questionPostId}
+                      answerPostId={answerPost.answerPostId}
+                      userId={userId}
+                      authorId={answerPost.user.userId}
+                      nickname={answerPost.user.nickname}
+                      deptName={answerPost.user.deptName}
+                      likeNum={answerPost.likeNum}
+                      content={answerPost.content}
+                      createdAt={answerPost.createdAt}
+                      updatedAt={answerPost.updatedAt}
+                      setMessage={setMessage}
+                      setIsSnackbarOpen={setIsSnackbarOpen}
+                    />
+                  )
+                ) : (
+                  answerPostList?.map((answerPost) =>
+                    <AnswerWithoutUserInfo
+                      key={answerPost.answerPostId}
+                      answerPostId={answerPost.answerPostId}
+                      authorId={answerPost.user.userId}
+                      nickname={answerPost.user.nickname}
+                      deptName={answerPost.user.deptName}
+                      likeNum={answerPost.likeNum}
+                      content={answerPost.content}
+                      createdAt={answerPost.createdAt}
+                      updatedAt={answerPost.updatedAt}
+                      setMessage={setMessage}
+                      setIsSnackbarOpen={setIsSnackbarOpen}
+                    />
+                  )
                 )}
               </section>
             </section>

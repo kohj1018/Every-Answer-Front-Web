@@ -26,10 +26,10 @@ const AddAnswer: NextPage = () => {
 
   const answerPostMutation = useMutation(addAnswerPost, {
     onSuccess: async () => {
-      queryClient.invalidateQueries(['answerPostList', questionPostId])
+      await queryClient.invalidateQueries(['answerPostList', questionPostId])
       await setMessage('답변을 등록했어요!')
       await setIsSnackbarOpen(true)
-      await router.push(`/question/${questionPostId}`)
+      router.back()
     }
   })
 
