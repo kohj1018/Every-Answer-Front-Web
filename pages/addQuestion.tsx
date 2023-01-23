@@ -1,31 +1,52 @@
 import { NextPage } from 'next'
 import MobileCancelHeader from '../components/layout/mobileHeader/MobileCancelHeader'
 import MainContainer from '../components/layout/MainContainer'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ChevronLeft } from 'react-feather'
 import { useMutation, useQueryClient } from 'react-query'
 import { addQuestionPost } from '../utils/apis/questionPostsApi'
+import { useSnackbarOpen } from '../stores/stores'
+import { useRouter } from 'next/router'
+import { useSignInInfoStore } from '../stores/localStorageStore/stores'
 
 const AddQuestion: NextPage = () => {
+  const router = useRouter()
   const queryClient = useQueryClient()
+  const { userId, oauthId } = useSignInInfoStore()
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
+  const { setIsSnackbarOpen, setMessage } = useSnackbarOpen()
 
   const questionPostMutation = useMutation(addQuestionPost, {
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries('infiniteQuestionPosts')
-      alert('등록 성공!')
+      await setMessage('질문을 등록했어요!')
+      await setIsSnackbarOpen(true)
+      await router.push('/')
     }
   })
 
-  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+  // 로그인하지 않은 경우 Redirect
+  useEffect(() => {
+    if (!userId || !oauthId) {
+      ;(async () => {
+        await setMessage('로그인 후 이용해주세요!')
+        await setIsSnackbarOpen(true)
+        await router.push('/auth/signIn')
+      })()
+    }
+  }, [userId, oauthId])
+
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.defaultPrevented
-    questionPostMutation.mutate({
-      userId: 1,  // TODO: 이거 나중에 수정해야됨 (로그인 구현하면)
-      deptId: 1,
-      title: title,
-      content: content
-    })
+    if (userId && oauthId) {
+      questionPostMutation.mutate({
+        userId: userId,
+        deptId: 1,  // TODO: 이거 나중에 수정해야됨
+        title: title,
+        content: content
+      })
+    }
   }
 
   return (

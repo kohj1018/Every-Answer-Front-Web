@@ -9,19 +9,28 @@ import googleLogo from '../../public/googleLogo.svg'
 import { mockProviders } from 'next-auth/client/__tests__/helpers/mocks'
 import callbackUrl = mockProviders.github.callbackUrl
 import { useSignInInfoStore } from '../../stores/localStorageStore/stores'
+import { useSnackbarOpen } from '../../stores/stores'
+import { useRouter } from 'next/router'
 
 const SignIn = () => {
+  const router = useRouter()
   const { userId, oauthId } = useSignInInfoStore()
   const [providers, setProviders] = useState<Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider> | null>()
   const [isLoading, setIsLoading] = useState<boolean>(true)
+  const { setIsSnackbarOpen, setMessage } = useSnackbarOpen()
 
   // 이미 로그인을 한 경우 Redirect
   useEffect(() => {
     if (userId && oauthId) {
-      window.location.replace('/')
+      ;(async () => {
+        await setMessage('이미 로그인 되어 있습니다.')
+        await setIsSnackbarOpen(true)
+        router.back()
+      })()
     }
     setIsLoading(false)
   }, [userId, oauthId])
+
 
   // Providers를 불러옴
   useEffect(() => {

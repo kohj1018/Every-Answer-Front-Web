@@ -10,8 +10,11 @@ import { Check, ChevronLeft } from 'react-feather'
 import { checkCharacter } from '../../utils/functions/checkCharacter'
 import { AxiosResponse } from 'axios'
 import Link from 'next/link'
+import { useSnackbarOpen } from '../../stores/stores'
+import { useRouter } from 'next/router'
 
 const SignUp = () => {
+  const router = useRouter()
   const { userId, setUserId, oauthId, setOauthId } = useSignInInfoStore()
   const { data: session } = useSession()
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -22,25 +25,31 @@ const SignUp = () => {
   const [deptName, setDeptName] = useState<string>('')
   const [univ, setUniv] = useState<string>('')
   const [entranceYearStr, setEntranceYearStr] = useState<string>('')
+  const { setIsSnackbarOpen, setMessage } = useSnackbarOpen()
 
   // 이미 로그인을 한 경우 Redirect
   useEffect(() => {
     if (userId && oauthId) {
-      window.location.replace('/')
+      ;(async () => {
+        await setMessage('이미 로그인 되어 있습니다.')
+        await setIsSnackbarOpen(true)
+        router.back()
+      })()
     }
-  }, [userId, oauthId])
+  }, [])
 
   // 기존에 가입한 유저의 경우 로그인 처리 후 Redirect
   useEffect(() => {
     setIsLoading(true)
-    console.log("session : ", session)
     if (session?.user.oauthId) {
       ;(async () => {
         const responseUserId: number = await getUserIdByOauthId(session.user.oauthId)
         if (responseUserId > -1) {  // responseUserId = -1은 해당하는 유저가 없다는 뜻. 즉, -1보다 크면 이미 가입한 유저라는 것
+          await setMessage('다시 만나 반가워요 😀')
+          await setIsSnackbarOpen(true)
           setOauthId(session.user.oauthId)
           setUserId(responseUserId)
-          window.location.replace('/')
+          await router.push('/')
         } else {
           setOauthId(session.user.oauthId)
           setIsLoading(false)
@@ -58,15 +67,18 @@ const SignUp = () => {
         setIsNicknameCheck(true)
         const response = await checkNicknameDuplicate(nickname)
         if (response) { // response가 true이면 중복된 아이디가 있다는 뜻
-          setIsDuplicate(true)
-          alert("중복된 아이디 입니다.")
+          await setIsDuplicate(true)
+          await setMessage('중복된 아이디 입니다 😢')
+          setIsSnackbarOpen(true)
         } else {
-          setIsDuplicate(false)
-          alert("사용 가능한 아이디입니다.")
+          await setIsDuplicate(false)
+          await setMessage('사용 가능한 아이디 입니다.')
+          setIsSnackbarOpen(true)
         }
       }
     } else {
-      alert("닉네임을 입력해주세요.")
+      await setMessage('닉네임을 먼저 입력해주세요.')
+      setIsSnackbarOpen(true)
     }
   }
 
@@ -75,8 +87,9 @@ const SignUp = () => {
     e.preventDefault()
 
     if (!oauthId) {
-      alert("oauthId 오류. 다시 시도해주세요.")
-      window.location.replace('/auth/signIn')
+      await setMessage('oauthId 오류. 다시 시도해주세요.')
+      await setIsSnackbarOpen(true)
+      await router.push('/auth/signIn')
     }
 
     if (!!selectedDept && nickname && !isDuplicate && deptName && univ && entranceYearStr) {
@@ -90,18 +103,21 @@ const SignUp = () => {
             entranceYear: parseInt(entranceYearStr),
             oauthId: oauthId ?? '',
             refreshToken: session?.refreshToken ?? ''
-          }).then((response: AxiosResponse<number>) => {
-            alert('가입을 축하합니다!')
+          }).then(async (response: AxiosResponse<number>) => {
             setUserId(response.data)
             setOauthId(oauthId)
-            window.location.replace('/')
+            await setMessage('가입을 축하합니다🎉 에브리엔서와 함께 열공해봐요')
+            await setIsSnackbarOpen(true)
+            await router.push('/')
           })
-            .catch((error) => {
-              alert("오류가 발생했습니다. 다시 시도해주세요.")
-              window.location.replace('/auth/signIn')
+            .catch(async (error) => {
+              await setMessage("오류가 발생했습니다. 다시 시도해주세요.")
+              await setIsSnackbarOpen(true)
+              await router.push('/auth/signIn')
             })
         } else {
-          alert("학번을 형식에 맞게 다시 입력해주세요.")
+          await setMessage('학번을 형식에 맞게 다시 입력해주세요.')
+          setIsSnackbarOpen(true)
         }
       }
     }

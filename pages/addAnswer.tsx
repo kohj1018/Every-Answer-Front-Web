@@ -5,13 +5,16 @@ import DeptClassTag from '../components/tag/DeptClassTag'
 import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
 import { Image, ChevronLeft, FileText } from 'react-feather'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 import { addAnswerPost } from '../utils/apis/answerPostsApi'
+import { useSnackbarOpen } from '../stores/stores'
+import { useSignInInfoStore } from '../stores/localStorageStore/stores'
 
 const AddAnswer: NextPage = () => {
-  const queryClient = useQueryClient()
   const router = useRouter()
+  const queryClient = useQueryClient()
+  const { userId, oauthId } = useSignInInfoStore()
   const questionPostId: number = parseInt(router.query.questionPostId as string)
   const deptClassName: string = router.query.deptClassName as string
   const questionTitle: string = router.query.questionTitle as string
@@ -19,22 +22,38 @@ const AddAnswer: NextPage = () => {
   const questionUserNickname: string = router.query.questionUserNickname as string
   const questionCreatedAt: string = router.query.questionCreatedAt as string
   const [answerContent, setAnswerContent] = useState('')
+  const { setIsSnackbarOpen, setMessage } = useSnackbarOpen()
 
   const answerPostMutation = useMutation(addAnswerPost, {
-    onSuccess: () => {
+    onSuccess: async () => {
       queryClient.invalidateQueries(['answerPostList', questionPostId])
-      alert('등록 성공!')
+      await setMessage('답변을 등록했어요!')
+      await setIsSnackbarOpen(true)
+      await router.push(`/question/${questionPostId}`)
     }
   })
 
+  // 로그인하지 않은 경우 Redirect
+  useEffect(() => {
+    if (!userId || !oauthId) {
+      ;(async () => {
+        await setMessage('로그인 후 이용해주세요!')
+        await setIsSnackbarOpen(true)
+        await router.push('/auth/signIn')
+      })()
+    }
+  }, [userId, oauthId])
+
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.defaultPrevented
-    answerPostMutation.mutate({
-      questionPostId: questionPostId,
-      userId: 2,  // TODO: 이거 나중에 수정해야됨 (로그인 구현하면)
-      likeNum: 0,
-      content: answerContent
-    })
+    if (userId && oauthId) {
+      answerPostMutation.mutate({
+        questionPostId: questionPostId,
+        userId: userId,
+        likeNum: 0,
+        content: answerContent
+      })
+    }
   }
 
   return (
