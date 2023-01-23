@@ -34,7 +34,7 @@ const SignIn = () => {
 
   // Providers를 불러옴
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       await getProviders()
         .then((res) => setProviders(res))
         .catch((e) => {

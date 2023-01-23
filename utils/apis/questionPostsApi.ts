@@ -17,6 +17,12 @@ export const getInfiniteQuestionPostList = async (lastPostId: number) => {
   return { postList, nextLastPostId: postList[postList.length - 1].questionPostId, isLast: postList.length < 20 }
 }
 
+/** 질문글 검색하기 */
+export const searchQuestionPostList = async (searchTerm: string): Promise<QuestionPostType[]> => {
+  const res = await ec2.get<QuestionPostType[]>(`/questionPosts/search/${searchTerm}`)
+  return res.data
+}
+
 /** 질문글 수정하기 */
 export const updateQuestionPost = (questionPostId: number, updateQuestionPostRequest: UpdateQuestionPostRequestType) => ec2.put(`/questionPosts/${questionPostId}`, {
   deptId: updateQuestionPostRequest.deptId,

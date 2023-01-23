@@ -27,7 +27,7 @@ const QuestionPost: NextPage = () => {
 
   return (
     <MainContainer isHiddenHeaderAndFooterOnMobile={true}>
-      <MobileBackHeader title='홈' />
+      <MobileBackHeader router={router} title='홈' />
 
       <main className='paddingHeader'>
         {/* 질문 글 */}

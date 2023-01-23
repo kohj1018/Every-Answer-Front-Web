@@ -26,7 +26,7 @@ function MainHeader({ isHiddenHeaderAndFooterOnMobile }: Props) {
       </Link>
 
       <section className='flex items-center space-x-4'>
-        <Link href='addQuestion'>
+        <Link href='/search'>
           <Search className='w-5 h-5 text-gray-400 lg:w-6 lg:h-6' />
         </Link>
         <Link href='/' className='p-2 bg-gray-100 rounded-full'>
