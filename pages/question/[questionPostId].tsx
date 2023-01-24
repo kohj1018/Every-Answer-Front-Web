@@ -20,10 +20,11 @@ const QuestionPost: NextPage = () => {
   const router = useRouter()
   const userId = useSignInInfoStore(state => state.userId)
   const questionPostId: number = parseInt(router.query.questionPostId as string)
-  const { data: questionPost } = useQuery<QuestionPostType>(['questionPost', questionPostId], () => getQuestionPostById(questionPostId))
-  const { data: answerPostList } = useQuery<AnswerPostType[]>(['answerPostList', questionPostId], () => getAnswerPostListByQuestionPostId(questionPostId))
+  const { data: questionPost, isLoading: isQuestionPostLoading } = useQuery<QuestionPostType>(['questionPost', questionPostId], () => getQuestionPostById(questionPostId))
+  const { data: answerPostList, isLoading: isAnswerPostLoading } = useQuery<AnswerPostType[]>(['answerPostList', questionPostId], () => getAnswerPostListByQuestionPostId(questionPostId))
   const { setMessage, setIsSnackbarOpen } = useSnackbarOpen()
 
+  if (isQuestionPostLoading || isAnswerPostLoading) return <p>loaindg...</p>
 
   return (
     <MainContainer isHiddenHeaderAndFooterOnMobile={true}>
