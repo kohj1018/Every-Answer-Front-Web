@@ -40,7 +40,9 @@ const QuestionPost: NextPage = () => {
               <p className='text-xs font-bold text-gray-500'>Q&A 상세페이지</p>
             </article>
 
-            <DeptClassTag name={questionPost!.deptClass.name} />
+            {questionPost &&
+              <DeptClassTag name={questionPost.deptClass.name} />
+            }
             <h1 className='mt-3 text-lg font-semibold text-gray-600 lg:mt-4 lg:text-2xl'>{questionPost?.title}</h1>
             <p className='mt-2 text-base font-medium text-gray-600 lg:text-lg'>{questionPost?.content}</p>
             <div className='mt-6 flex items-center justify-between text-sm font-semibold text-gray-400 lg:mt-8 lg:text-lg'>

@@ -88,6 +88,10 @@ const SignIn = () => {
                       <p className='font-roboto text-base font-medium text-blue-500 lg:text-[1.4375rem]'>구글 계정으로 로그인하기</p>
                     </button>
                   )
+                default:
+                  return (
+                    <p>에러</p>
+                  )
               }
             })
           }

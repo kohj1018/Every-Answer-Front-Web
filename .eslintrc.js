@@ -27,7 +27,11 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/no-floating-promises': 'off',
     'n/handle-callback-err': 'off',
-    '@typescript-eslint/prefer-optional-chain': 'off'
+    '@typescript-eslint/prefer-optional-chain': 'off',
+    '@typescript-eslint/promise-function-async': 'off',
+    '@typescript-eslint/restrict-plus-operands': 'off',
+    'no-extra-boolean-cast': 'off',
+
   },
   settings: {
     react: {
