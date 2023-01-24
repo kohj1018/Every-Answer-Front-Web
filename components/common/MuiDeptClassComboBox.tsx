@@ -126,7 +126,7 @@ export default function MuiDeptClassComboBox({ setSelectedDept }: Props) {
       {groupedOptions.length > 0 ? (
         <Listbox {...getListboxProps()}>
           {(groupedOptions as typeof DEPT_CLASS_LIST).map((option, index) => (
-            <li {...getOptionProps({ option, index })}>{option.name}</li>
+            <li key={index} {...getOptionProps({ option, index })}>{option.name}</li>
           ))}
         </Listbox>
       ) : null}
