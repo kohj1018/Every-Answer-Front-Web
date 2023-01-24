@@ -10,8 +10,10 @@ import QuestionPreview from '../components/common/QuestionPreview'
 import { QuestionPostType } from '../utils/types/responseTypes'
 import { router } from 'next/client'
 import { arrayIsNotEmpty } from '../utils/functions/arrayIsNotEmpty'
+import { useRouter } from 'next/router'
 
 const Search: NextPage = () => {
+  const router = useRouter()
   const [searchTerm, setSearchTerm] = useState<string>('')
   // const [isQueryRun, setIsQueryRun] = useState<boolean>(false) // TODO : react-query로 구현하는 거 다시 시도해보기
   // const { data: searchResult } = useQuery(
