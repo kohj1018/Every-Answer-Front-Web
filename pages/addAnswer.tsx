@@ -45,7 +45,7 @@ const AddAnswer: NextPage = () => {
   }, [userId, oauthId])
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.defaultPrevented
+    e.preventDefault()
     if (userId && oauthId) {
       answerPostMutation.mutate({
         questionPostId: questionPostId,
