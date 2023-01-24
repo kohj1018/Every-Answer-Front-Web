@@ -19,7 +19,7 @@ import { useSnackbarOpen } from '../../stores/stores'
 const QuestionPost: NextPage = () => {
   const router = useRouter()
   const userId = useSignInInfoStore(state => state.userId)
-  const questionPostId: number = parseInt(router.query.questionPostId as string)
+  const questionPostId: number = parseInt(router.query.questionPostId as string ?? '1')
   const { data: questionPost, isLoading: isQuestionPostLoading } = useQuery<QuestionPostType>(['questionPost', questionPostId], () => getQuestionPostById(questionPostId))
   const { data: answerPostList, isLoading: isAnswerPostLoading } = useQuery<AnswerPostType[]>(['answerPostList', questionPostId], () => getAnswerPostListByQuestionPostId(questionPostId))
   const { setMessage, setIsSnackbarOpen } = useSnackbarOpen()
