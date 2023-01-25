@@ -39,7 +39,7 @@ const AddAnswer: NextPage = () => {
       ;(async () => {
         await setMessage('로그인 후 이용해주세요!')
         await setIsSnackbarOpen(true)
-        await router.push('/auth/signIn')
+        await router.replace('/auth/signIn')
       })()
     }
   }, [userId, oauthId])

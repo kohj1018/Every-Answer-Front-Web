@@ -102,7 +102,7 @@ export function AnswerWithoutUserInfo({ answerPostId, authorId, nickname, deptNa
     e.preventDefault()
     await setMessage('로그인 후 이용하실 수 있습니다.')
     await setIsSnackbarOpen(true)
-    await router.push('/auth/signIn')
+    await router.replace('/auth/signIn')
   }
 
   return (
@@ -112,7 +112,10 @@ export function AnswerWithoutUserInfo({ answerPostId, authorId, nickname, deptNa
           <p className='font-semibold text-gray-600'>{nickname}</p>
           <p className='font-medium text-gray-400'>{deptName}</p>
         </Link>
-        <button className='px-1.5 py-1 flex items-center space-x-1 rounded bg-gray-100 text-gray-500'>
+        <button
+          onClick={(e) => redirectPage(e)}
+          className='px-1.5 py-1 flex items-center space-x-1 rounded bg-gray-100 text-gray-500'
+        >
           <p className='text-base font-semibold lg:text-lg'>유용해요 {likeNum}</p>
           <ThumbsUp className='w-[1.125rem] h-[1.125rem] lg:w-5 lg:h-5' />
         </button>

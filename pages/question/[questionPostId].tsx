@@ -58,7 +58,7 @@ const QuestionPost: NextPage = () => {
           <section className='px-5 py-6 bg-gray-50 lg:mainWidthLimit'>
             {/* 답변 유도 버튼 */}
             <article className='px-4 py-3 flex items-center justify-between rounded bg-gray-100 lg:px-6 lg:py-5'>
-              <p className='text-base font-semibold text-gray-400 lg:text-lg'>kohj1018님, 답변을 달아주세요!</p>
+              <p className='text-base font-semibold text-gray-400 lg:text-lg'>답변을 달아주세요!</p>
               <Link
                 href={{
                   pathname: '/addAnswer',

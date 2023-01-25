@@ -22,7 +22,7 @@ const AddQuestion: NextPage = () => {
       queryClient.invalidateQueries('infiniteQuestionPosts')
       await setMessage('질문을 등록했어요!')
       await setIsSnackbarOpen(true)
-      await router.push('/')
+      router.back()
     }
   })
 
@@ -32,7 +32,7 @@ const AddQuestion: NextPage = () => {
       ;(async () => {
         await setMessage('로그인 후 이용해주세요!')
         await setIsSnackbarOpen(true)
-        await router.push('/auth/signIn')
+        await router.replace('/auth/signIn')
       })()
     }
   }, [userId, oauthId])
