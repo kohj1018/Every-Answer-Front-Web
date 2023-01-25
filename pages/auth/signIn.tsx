@@ -45,7 +45,7 @@ const SignIn = () => {
 
   const handleSignIn = (providerId: LiteralUnion<BuiltInProviderType, string>) => {
     setIsLoading(true)
-    signIn(providerId, {callbackUrl: 'https://everyanswer.kr/auth/signUp'})  // 배포 전: https://everyanswer.kr/auth/signUp / 로컬 환경: http://localhost:3000/auth/signUp
+    signIn(providerId, {callbackUrl: 'https://www.everyanswer.kr/auth/signUp'})  // 배포 전: https://everyanswer.kr/auth/signUp / 로컬 환경: http://localhost:3000/auth/signUp
   }
 
   if (isLoading) return <p>loading...</p>
