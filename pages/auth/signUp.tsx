@@ -12,6 +12,8 @@ import { AxiosResponse } from 'axios'
 import Link from 'next/link'
 import { useSnackbarOpen } from '../../stores/stores'
 import { useRouter } from 'next/router'
+import { checkMaxLength } from '../../utils/functions/checkMaxLength'
+import dayjs from 'dayjs'
 
 const SignUp = () => {
   const router = useRouter()
@@ -94,7 +96,7 @@ const SignUp = () => {
 
     if (!!selectedDept && nickname && !isDuplicate && deptName && univ && entranceYearStr) {
       if (checkCharacter(deptName, false) && checkCharacter(univ, false) && checkCharacter(entranceYearStr, true)) {
-        if (entranceYearStr.length === 2 && parseInt(entranceYearStr) >= 0 && parseInt(entranceYearStr) < 100) {
+        if (entranceYearStr.length === 2 && parseInt(entranceYearStr) >= 0 && parseInt(entranceYearStr) <= parseInt(dayjs().format('YY'))) {
           await addUser({
             deptId: selectedDept.deptId,
             nickname: nickname,
@@ -150,7 +152,11 @@ const SignUp = () => {
                 placeholder='닉네임 입력하기'
                 maxLength={10}
                 value={nickname}
-                onChange={(e) => setNickname(e.target.value)}
+                onChange={(e) => {
+                  if (e.target.value.length < e.target.maxLength + 1) {  // 모바일 환경에서는 maxLength 속성이 먹히지 않기 때문에 js 추가
+                    setNickname(e.target.value)
+                  }
+                }}
                 disabled={!isDuplicate}
                 required
               />
@@ -171,7 +177,11 @@ const SignUp = () => {
               placeholder='전공 이름 입력하기'
               maxLength={20}
               value={deptName}
-              onChange={(e) => setDeptName(e.target.value)}
+              onChange={(e) => {
+                if (e.target.value.length < e.target.maxLength + 1) {
+                  setDeptName(e.target.value)
+                }
+              }}
               required
             />
           </article>
@@ -183,7 +193,11 @@ const SignUp = () => {
               placeholder='대학명 입력하기'
               maxLength={15}
               value={univ}
-              onChange={(e) => setUniv(e.target.value)}
+              onChange={(e) => {
+                if (e.target.value.length < e.target.maxLength + 1) {
+                  setUniv(e.target.value)
+                }
+              }}
               required
             />
           </article>
@@ -202,10 +216,9 @@ const SignUp = () => {
               maxLength={2}
               value={entranceYearStr}
               onChange={(e) => {
-                if (e.target.value.length > 2) {
-                  e.target.value = e.target.value.slice(0, 2)
+                if (e.target.value.length < e.target.maxLength + 1) {
+                  setEntranceYearStr(e.target.value)
                 }
-                setEntranceYearStr(e.target.value)
               }}
               required
             />
