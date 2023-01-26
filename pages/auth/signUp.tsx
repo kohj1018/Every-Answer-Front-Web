@@ -146,7 +146,7 @@ const SignUp = () => {
             <article className='w-full px-6 py-2.5 flex items-center justify-between rounded-lg bg-gray-50 lg:px-8 lg:py-4'>
               <input
                 type='text'
-                className={'grow pr-1 text-base font-medium bg-gray-50 placeholder:text-gray-300 focus:outline-none lg:text-lg' + (isNicknameCheck && !isDuplicate ? ' text-gray-300' : ' text-gray-600')}
+                className={'w-[13.4375rem] pr-1 text-base font-medium bg-gray-50 placeholder:text-gray-300 focus:outline-none lg:text-lg lg:w-[21.875rem]' + (isNicknameCheck && !isDuplicate ? ' text-gray-300' : ' text-gray-600')}  // TODO: 모바일에서 깨짐이 일어나서 width 직접 지정해줌
                 placeholder='닉네임 입력하기'
                 value={nickname}
                 onChange={(e) => setNickname(e.target.value)}
