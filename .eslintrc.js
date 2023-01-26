@@ -31,7 +31,7 @@ module.exports = {
     '@typescript-eslint/promise-function-async': 'off',
     '@typescript-eslint/restrict-plus-operands': 'off',
     'no-extra-boolean-cast': 'off',
-
+    '@typescript-eslint/no-non-null-assertion': 'off',
   },
   settings: {
     react: {
