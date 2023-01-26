@@ -37,7 +37,7 @@ const SignIn = () => {
 
   const handleSignIn = (providerId: LiteralUnion<BuiltInProviderType, string>) => {
     setIsLoading(true)
-    signIn(providerId, {callbackUrl: 'http://localhost:3000/auth/termsAndConditions'})  // 배포 환경: https://www.everyanswer.kr/auth/termsAndConditions / 로컬 환경: http://localhost:3000/auth/termsAndConditions
+    signIn(providerId, {callbackUrl: 'https://www.everyanswer.kr/auth/termsAndConditions'})  // 배포 환경: https://www.everyanswer.kr/auth/termsAndConditions / 로컬 환경: http://localhost:3000/auth/termsAndConditions
   }
 
   if (isLoading) return <p>loading...</p>
