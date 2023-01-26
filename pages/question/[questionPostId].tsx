@@ -13,7 +13,7 @@ import { getAnswerPostListByQuestionPostId } from '../../utils/apis/answerPostsA
 import { Answer, AnswerWithoutUserInfo } from '../../components/common/Answer'
 import { ChevronLeft } from 'react-feather'
 import { useSignInInfoStore } from '../../stores/localStorageStore/stores'
-import { useSnackbarOpen } from '../../stores/stores'
+import { useSnackbarOpenStore } from '../../stores/stores'
 
 
 const QuestionPost: NextPage = () => {
@@ -22,7 +22,9 @@ const QuestionPost: NextPage = () => {
   const questionPostId: number = parseInt(router.query.questionPostId as string ?? '1')
   const { data: questionPost, isLoading: isQuestionPostLoading } = useQuery<QuestionPostType>(['questionPost', questionPostId], () => getQuestionPostById(questionPostId))
   const { data: answerPostList, isLoading: isAnswerPostLoading } = useQuery<AnswerPostType[]>(['answerPostList', questionPostId], () => getAnswerPostListByQuestionPostId(questionPostId))
-  const { setMessage, setIsSnackbarOpen } = useSnackbarOpen()
+  const { setMessage, setIsSnackbarOpen } = useSnackbarOpenStore()
+
+
 
   if (isQuestionPostLoading || isAnswerPostLoading) return <p>loaindg...</p>
 
@@ -30,7 +32,7 @@ const QuestionPost: NextPage = () => {
     <MainContainer isHiddenHeaderAndFooterOnMobile={true}>
       <MobileBackHeader router={router} title='홈' />
 
-      <main className='paddingHeader'>
+      <main className='marginHeader'>
         {/* 질문 글 */}
         <Suspense fallback={<p>loading...</p>}>
           <article className='px-5 py-6 bg-white lg:py-12 lg:mainWidthLimit'>

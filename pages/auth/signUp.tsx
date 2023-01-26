@@ -1,7 +1,7 @@
 import { useSignInInfoStore } from '../../stores/localStorageStore/stores'
 import React, { useEffect, useState } from 'react'
 import { useSession } from 'next-auth/react'
-import { addUser, checkNicknameDuplicate, getUserIdByOauthId } from '../../utils/apis/usersApi'
+import { addUser, checkNicknameDuplicate } from '../../utils/apis/usersApi'
 import MainContainer from '../../components/layout/MainContainer'
 import MobileCenterTitleHeader from '../../components/layout/mobileHeader/MobileCenterTitleHeader'
 import { DeptClassMinimalType } from '../../utils/constants/serviceConstants'
@@ -10,16 +10,15 @@ import { Check, ChevronLeft } from 'react-feather'
 import { checkCharacter } from '../../utils/functions/checkCharacter'
 import { AxiosResponse } from 'axios'
 import Link from 'next/link'
-import { useSnackbarOpen } from '../../stores/stores'
+import { useSnackbarOpenStore } from '../../stores/stores'
 import { useRouter } from 'next/router'
-import { checkMaxLength } from '../../utils/functions/checkMaxLength'
 import dayjs from 'dayjs'
+import { useRedirectIfSignIn } from '../../hooks/useRedirectIfSignIn'
 
 const SignUp = () => {
   const router = useRouter()
   const { userId, setUserId, oauthId, setOauthId } = useSignInInfoStore()
   const { data: session } = useSession()
-  const [isLoading, setIsLoading] = useState<boolean>(true)
   const [selectedDept, setSelectedDept] = useState<DeptClassMinimalType | null>(null)
   const [nickname, setNickname] = useState<string>('')
   const [isNicknameCheck, setIsNicknameCheck] = useState<boolean>(false)
@@ -27,45 +26,21 @@ const SignUp = () => {
   const [deptName, setDeptName] = useState<string>('')
   const [univ, setUniv] = useState<string>('')
   const [entranceYearStr, setEntranceYearStr] = useState<string>('')
-  const { setIsSnackbarOpen, setMessage } = useSnackbarOpen()
+  const { setIsSnackbarOpen, setMessage } = useSnackbarOpenStore()
 
   // 이미 로그인을 한 경우 Redirect
-  useEffect(() => {
-    if (userId && oauthId) {
-      ;(async () => {
-        await setMessage('이미 로그인 되어 있습니다.')
-        await setIsSnackbarOpen(true)
-        router.back()
-      })()
-    }
-  }, [])
+  useRedirectIfSignIn(router, userId, oauthId, setMessage, setIsSnackbarOpen)
 
-  // 기존에 가입한 유저의 경우 로그인 처리 후 Redirect
-  useEffect(() => {
-    setIsLoading(true)
-    if (session?.user.oauthId) {
-      ;(async () => {
-        const responseUserId: number = await getUserIdByOauthId(session.user.oauthId)
-        if (responseUserId > -1) {  // responseUserId = -1은 해당하는 유저가 없다는 뜻. 즉, -1보다 크면 이미 가입한 유저라는 것
-          await setMessage('다시 만나 반가워요 😀')
-          await setIsSnackbarOpen(true)
-          setOauthId(session.user.oauthId)
-          setUserId(responseUserId)
-          await router.push('/')
-        } else {
-          setOauthId(session.user.oauthId)
-          setIsLoading(false)
-        }
-      })()
-    }
-  }, [session])
 
   // 닉네임 중복 검사
   const checkDuplication = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
 
-    if (!!nickname && nickname.length < 11) {
-      if (checkCharacter(nickname, true)) {  // 특수문자 입력X 에만 통과
+    if (nickname.length > 15) {
+      await setMessage('닉네임이 너무 길어요 😢')
+      setIsSnackbarOpen(true)
+    } else if (!!nickname) {
+      if (checkCharacter(nickname, true, setMessage, setIsSnackbarOpen)) {  // 특수문자 입력X 에만 통과
         setIsNicknameCheck(true)
         const response = await checkNicknameDuplicate(nickname)
         if (response) { // response가 true이면 중복된 아이디가 있다는 뜻
@@ -95,7 +70,7 @@ const SignUp = () => {
     }
 
     if (!!selectedDept && nickname && !isDuplicate && deptName && univ && entranceYearStr) {
-      if (checkCharacter(deptName, false) && checkCharacter(univ, false) && checkCharacter(entranceYearStr, true)) {
+      if (checkCharacter(deptName, false, setMessage, setIsSnackbarOpen) && checkCharacter(univ, false, setMessage, setIsSnackbarOpen) && checkCharacter(entranceYearStr, true, setMessage, setIsSnackbarOpen)) {
         if (entranceYearStr.length === 2 && parseInt(entranceYearStr) >= 0 && parseInt(entranceYearStr) <= parseInt(dayjs().format('YY'))) {
           await addUser({
             deptId: selectedDept.deptId,
@@ -127,12 +102,10 @@ const SignUp = () => {
 
 
 
-  if (isLoading) return <p>loading...</p>
-
   return (
     <MainContainer isHiddenHeaderAndFooterOnMobile={true}>
-      <MobileCenterTitleHeader title='회원정보입력' />
-      <main className='paddingHeader py-10 px-5 lg:py-[3.875rem] lg:mainWidthLimit'>
+      <MobileCenterTitleHeader title='회원정보입력' link='/' />
+      <main className='marginHeader py-10 px-5 lg:py-[3.875rem] lg:mainWidthLimit'>
         <Link href='/' className='hidden items-center space-x-1 lg:flex'>
           <ChevronLeft className='w-5 h-5 text-gray-300' />
           <p className='text-lg font-semibold text-gray-800'>회원정보입력</p>
@@ -150,9 +123,12 @@ const SignUp = () => {
                 type='text'
                 className={'w-[8.5rem] pr-1 text-base font-medium bg-gray-50 placeholder:text-gray-300 focus:outline-none lg:text-lg lg:w-[20rem]' + (isNicknameCheck && !isDuplicate ? ' text-gray-300' : ' text-gray-600')}  // TODO: 모바일에서 깨짐이 일어나서 width 직접 지정해줌
                 placeholder='닉네임 입력하기'
-                maxLength={10}
+                maxLength={15}
                 value={nickname}
                 onChange={(e) => {
+                  if (isNicknameCheck) {
+                    setIsNicknameCheck(false)
+                  }
                   if (e.target.value.length < e.target.maxLength + 1) {  // 모바일 환경에서는 maxLength 속성이 먹히지 않기 때문에 js 추가
                     setNickname(e.target.value)
                   }

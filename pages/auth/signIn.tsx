@@ -9,27 +9,19 @@ import googleLogo from '../../public/googleLogo.svg'
 import { mockProviders } from 'next-auth/client/__tests__/helpers/mocks'
 import callbackUrl = mockProviders.github.callbackUrl
 import { useSignInInfoStore } from '../../stores/localStorageStore/stores'
-import { useSnackbarOpen } from '../../stores/stores'
+import { useSnackbarOpenStore } from '../../stores/stores'
 import { useRouter } from 'next/router'
+import { useRedirectIfSignIn } from '../../hooks/useRedirectIfSignIn'
 
 const SignIn = () => {
   const router = useRouter()
   const { userId, oauthId } = useSignInInfoStore()
   const [providers, setProviders] = useState<Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider> | null>()
   const [isLoading, setIsLoading] = useState<boolean>(true)
-  const { setIsSnackbarOpen, setMessage } = useSnackbarOpen()
+  const { setIsSnackbarOpen, setMessage } = useSnackbarOpenStore()
 
   // 이미 로그인을 한 경우 Redirect
-  useEffect(() => {
-    if (userId && oauthId) {
-      ;(async () => {
-        await setMessage('이미 로그인 되어 있습니다.')
-        await setIsSnackbarOpen(true)
-        router.back()
-      })()
-    }
-    setIsLoading(false)
-  }, [userId, oauthId])
+  useRedirectIfSignIn(router, userId, oauthId, setMessage, setIsSnackbarOpen, setIsLoading)
 
 
   // Providers를 불러옴
@@ -45,15 +37,15 @@ const SignIn = () => {
 
   const handleSignIn = (providerId: LiteralUnion<BuiltInProviderType, string>) => {
     setIsLoading(true)
-    signIn(providerId, {callbackUrl: 'https://www.everyanswer.kr/auth/signUp'})  // 배포 환경: https://www.everyanswer.kr/auth/signUp / 로컬 환경: http://localhost:3000/auth/signUp
+    signIn(providerId, {callbackUrl: 'http://localhost:3000/auth/termsAndConditions'})  // 배포 환경: https://www.everyanswer.kr/auth/termsAndConditions / 로컬 환경: http://localhost:3000/auth/termsAndConditions
   }
 
   if (isLoading) return <p>loading...</p>
 
   return (
     <MainContainer isHiddenHeaderAndFooterOnMobile={true}>
-      <MobileCenterTitleHeader title='로그인' />
-      <main className='paddingHeader flex flex-col items-center lg:mb-[18.375rem]'>
+      <MobileCenterTitleHeader title='로그인' link='/' />
+      <main className='flex flex-col items-center lg:mb-[18.375rem]'>
         <article className='mt-[14.6875rem] space-y-2 lg:mt-[14.5625rem] lg:space-y-[1.625rem]'>
           <h2 className='text-lg font-semibold text-gray-800 text-center lg:text-2xl'>세상에 없던 전공 질문 플랫폼</h2>
           <div className='relative w-[14.25rem] h-[2.25rem] lg:w-[21.4375rem] lg:h-[2.875rem]'>

@@ -10,7 +10,7 @@ export const useScrollYStore = create<ScrollYState>((set) => ({
 }))
 
 /** 스낵바 띄우는 Store */
-export const useSnackbarOpen = create<SnackbarOpenState>((set) => ({
+export const useSnackbarOpenStore = create<SnackbarOpenState>((set) => ({
   isSnackbarOpen: false,
   setIsSnackbarOpen: (isSnackbarOpen: boolean) => {
     set((state) => ({ ...state, isSnackbarOpen: isSnackbarOpen }))

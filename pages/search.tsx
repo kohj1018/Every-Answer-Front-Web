@@ -4,7 +4,7 @@ import MobileCenterTitleHeader from '../components/layout/mobileHeader/MobileCen
 import SearchBar from '../components/common/SearchBar'
 import React, { FormEvent, Suspense, useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
-import { useScrollYStore, useSnackbarOpen } from '../stores/stores'
+import { useScrollYStore, useSnackbarOpenStore } from '../stores/stores'
 import { searchQuestionPostList } from '../utils/apis/questionPostsApi'
 import QuestionPreview from '../components/common/QuestionPreview'
 import { QuestionPostType } from '../utils/types/responseTypes'
@@ -31,7 +31,7 @@ const Search: NextPage = () => {
   // )
   const [searchResult, setSearchResult] = useState<QuestionPostType[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const { setMessage, setIsSnackbarOpen } = useSnackbarOpen()
+  const { setMessage, setIsSnackbarOpen } = useSnackbarOpenStore()
 
   useEffect(() => {
     if (router.query.searchTerm) {
@@ -64,8 +64,8 @@ const Search: NextPage = () => {
 
   return (
     <MainContainer isHiddenHeaderAndFooterOnMobile={true}>
-      <MobileCenterTitleHeader title='검색' />
-      <main className='paddingHeader px-5 py-4 lg:py-8 lg:mainWidthLimit'>
+      <MobileCenterTitleHeader title='검색' router={router} />
+      <main className='marginHeader px-5 py-4 lg:py-8 lg:mainWidthLimit'>
         {/* 검색바 */}
         <SearchBar submitSearchTerm={submitSearchTerm} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
 

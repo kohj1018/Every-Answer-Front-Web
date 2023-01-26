@@ -1,13 +1,14 @@
 import { NextPage } from 'next'
 import MobileCancelHeader from '../components/layout/mobileHeader/MobileCancelHeader'
 import MainContainer from '../components/layout/MainContainer'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { ChevronLeft } from 'react-feather'
 import { useMutation, useQueryClient } from 'react-query'
 import { addQuestionPost } from '../utils/apis/questionPostsApi'
-import { useSnackbarOpen } from '../stores/stores'
+import { useSnackbarOpenStore } from '../stores/stores'
 import { useRouter } from 'next/router'
 import { useSignInInfoStore } from '../stores/localStorageStore/stores'
+import { useRedirectIfNotSignIn } from '../hooks/useRedirectIfNotSignIn'
 
 const AddQuestion: NextPage = () => {
   const router = useRouter()
@@ -15,7 +16,7 @@ const AddQuestion: NextPage = () => {
   const { userId, oauthId } = useSignInInfoStore()
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
-  const { setIsSnackbarOpen, setMessage } = useSnackbarOpen()
+  const { setIsSnackbarOpen, setMessage } = useSnackbarOpenStore()
 
   const questionPostMutation = useMutation(addQuestionPost, {
     onSuccess: async () => {
@@ -27,15 +28,7 @@ const AddQuestion: NextPage = () => {
   })
 
   // 로그인하지 않은 경우 Redirect
-  useEffect(() => {
-    if (!userId || !oauthId) {
-      ;(async () => {
-        await setMessage('로그인 후 이용해주세요!')
-        await setIsSnackbarOpen(true)
-        await router.replace('/auth/signIn')
-      })()
-    }
-  }, [userId, oauthId])
+  useRedirectIfNotSignIn(router, userId, oauthId, setMessage, setIsSnackbarOpen)
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
@@ -51,9 +44,9 @@ const AddQuestion: NextPage = () => {
 
   return (
     <MainContainer isHiddenHeaderAndFooterOnMobile={true}>
-      <MobileCancelHeader title='질문하기' />
+      <MobileCancelHeader router={router} title='질문하기' />
 
-      <main className='paddingHeader px-5 py-8 lg:py-12 lg:mainWidthLimit'>
+      <main className='marginHeader px-5 py-8 lg:py-12 lg:mainWidthLimit'>
         <article className='hidden items-center space-x-1 lg:flex'>
           <ChevronLeft className='w-3 h-3 text-gray-400' />
           <p className='text-xs font-bold text-gray-500'>홈</p>

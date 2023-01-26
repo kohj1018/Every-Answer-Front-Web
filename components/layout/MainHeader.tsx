@@ -29,7 +29,7 @@ function MainHeader({ isHiddenHeaderAndFooterOnMobile }: Props) {
         <Link href='/search'>
           <Search className='w-5 h-5 text-gray-400 lg:w-6 lg:h-6' />
         </Link>
-        <Link href='/' className='p-2 bg-gray-100 rounded-full'>
+        <Link href='/user' className='p-2 bg-gray-100 rounded-full'>
           <User className='w-4 h-4 text-gray-400 lg:w-5 lg:h-5' />
         </Link>
       </section>

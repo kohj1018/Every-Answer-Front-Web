@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import { ChevronLeft, MoreHorizontal } from 'react-feather'
 import { NextRouter } from 'next/router'
 

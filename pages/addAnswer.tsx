@@ -5,11 +5,12 @@ import DeptClassTag from '../components/tag/DeptClassTag'
 import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
 import { Image, ChevronLeft, FileText } from 'react-feather'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useMutation, useQueryClient } from 'react-query'
 import { addAnswerPost } from '../utils/apis/answerPostsApi'
-import { useSnackbarOpen } from '../stores/stores'
+import { useSnackbarOpenStore } from '../stores/stores'
 import { useSignInInfoStore } from '../stores/localStorageStore/stores'
+import { useRedirectIfNotSignIn } from '../hooks/useRedirectIfNotSignIn'
 
 const AddAnswer: NextPage = () => {
   const router = useRouter()
@@ -22,7 +23,7 @@ const AddAnswer: NextPage = () => {
   const questionUserNickname: string = router.query.questionUserNickname as string
   const questionCreatedAt: string = router.query.questionCreatedAt as string
   const [answerContent, setAnswerContent] = useState('')
-  const { setIsSnackbarOpen, setMessage } = useSnackbarOpen()
+  const { setIsSnackbarOpen, setMessage } = useSnackbarOpenStore()
 
   const answerPostMutation = useMutation(addAnswerPost, {
     onSuccess: async () => {
@@ -34,15 +35,7 @@ const AddAnswer: NextPage = () => {
   })
 
   // 로그인하지 않은 경우 Redirect
-  useEffect(() => {
-    if (!userId || !oauthId) {
-      ;(async () => {
-        await setMessage('로그인 후 이용해주세요!')
-        await setIsSnackbarOpen(true)
-        await router.replace('/auth/signIn')
-      })()
-    }
-  }, [userId, oauthId])
+  useRedirectIfNotSignIn(router, userId, oauthId, setMessage, setIsSnackbarOpen)
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
@@ -58,8 +51,8 @@ const AddAnswer: NextPage = () => {
 
   return (
     <MainContainer isHiddenHeaderAndFooterOnMobile={true}>
-      <MobileCancelHeader title='답변하기' />
-      <main className='paddingHeader bg-gray-100'>
+      <MobileCancelHeader router={router} title='답변하기' />
+      <main className='marginHeader bg-gray-100'>
         <article className='px-5 py-6 border-b border-gray-100 bg-white lg:py-12 lg:mainWidthLimit'>
           <article className='hidden mb-14 items-center space-x-1 lg:flex'>
             <ChevronLeft className='w-3 h-3 text-gray-400' />

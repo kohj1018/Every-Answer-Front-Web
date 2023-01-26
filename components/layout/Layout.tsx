@@ -2,16 +2,16 @@
 // Page에만 넣을 css 요소들 여기에 넣기
 import React from 'react'
 import BottomCenterSnackbar from '../common/BottomCenterSnackbar'
-import { useSnackbarOpen } from '../../stores/stores'
+import { useSnackbarOpenStore } from '../../stores/stores'
 
 interface Props {
   children: React.ReactNode
 }
 
 function Layout({ children }: Props) {
-  const { isSnackbarOpen, setIsSnackbarOpen, message } = useSnackbarOpen()
+  const { isSnackbarOpen, setIsSnackbarOpen, message } = useSnackbarOpenStore()
 
-  return <div className='min-h-screen h-full min-w-[300px] w-full'>
+  return <div className='min-h-screen h-full min-w-[300px] w-full bg-white'>
     {children}
     <BottomCenterSnackbar isSnackbarOpen={isSnackbarOpen} setIsSnackbarOpen={setIsSnackbarOpen} message={message} />
   </div>

@@ -9,6 +9,7 @@ import React, { useEffect } from 'react'
 import { ARBITRARY_LARGEST_LAST_QUESTIONPOST_ID } from '../utils/config'
 import { getInfiniteQuestionPostList } from '../utils/apis/questionPostsApi'
 import { useScrollYStore } from '../stores/stores'
+import SEO from '../components/SEO'
 
 const Home: NextPage = () => {
   const { ref, inView } = useInView()
@@ -39,7 +40,9 @@ const Home: NextPage = () => {
 
   return (
     <MainContainer>
-      <main className='paddingHeader pt-8 px-5 lg:pt-12 lg:mainWidthLimit'>
+      <SEO title='대학생 전공질문 플랫폼 - 에브리엔서' />
+
+      <main className='marginHeader pt-8 px-5 lg:pt-12 lg:mainWidthLimit'>
         {/* 메인 피드 */}
         <h2 className='text-xl font-semibold text-gray-900'>Q&A</h2>
         <section className='mt-4 space-y-2.5 lg:mt-6 lg:space-y-3.5'>
