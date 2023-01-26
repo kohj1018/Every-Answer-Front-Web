@@ -143,9 +143,7 @@ const SignUp = () => {
           </article>
           <article className='space-y-3 lg:space-y-5'>
             <header>2. 사용할 닉네임을 입력해주세요.</header>
-            <form
-              className='w-full px-6 py-2.5 flex items-center justify-between rounded-lg bg-gray-50 lg:px-8 lg:py-4'
-            >
+            <article className='w-full px-6 py-2.5 flex items-center justify-between rounded-lg bg-gray-50 lg:px-8 lg:py-4'>
               <input
                 type='text'
                 className={'grow pr-1 text-base font-medium bg-gray-50 placeholder:text-gray-300 focus:outline-none lg:text-lg' + (isNicknameCheck && !isDuplicate ? ' text-gray-300' : ' text-gray-600')}
@@ -162,7 +160,7 @@ const SignUp = () => {
               >
                 {isNicknameCheck ? (isDuplicate ? '사용불가' : '사용가능') : '중복확인'}
               </button>
-            </form>
+            </article>
           </article>
           <article className='space-y-3 lg:space-y-5'>
             <header>3. 전공의 정확한 이름을 입력해주세요.</header>
