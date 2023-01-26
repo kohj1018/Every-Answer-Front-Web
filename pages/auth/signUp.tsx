@@ -62,7 +62,7 @@ const SignUp = () => {
   const checkDuplication = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
 
-    if (!!nickname) {
+    if (!!nickname && nickname.length < 11) {
       if (checkCharacter(nickname, true)) {  // 특수문자 입력X 에만 통과
         setIsNicknameCheck(true)
         const response = await checkNicknameDuplicate(nickname)
@@ -146,15 +146,16 @@ const SignUp = () => {
             <article className='w-full px-6 py-2.5 flex items-center justify-between rounded-lg bg-gray-50 lg:px-8 lg:py-4'>
               <input
                 type='text'
-                className={'grow pr-1 text-base font-medium bg-gray-50 placeholder:text-gray-300 focus:outline-none lg:text-lg' + (isNicknameCheck && !isDuplicate ? ' text-gray-300' : ' text-gray-600')}  // TODO: 모바일에서 깨짐이 일어나서 width 직접 지정해줌
+                className={'w-[8.5rem] pr-1 text-base font-medium bg-gray-50 placeholder:text-gray-300 focus:outline-none lg:text-lg lg:w-[20rem]' + (isNicknameCheck && !isDuplicate ? ' text-gray-300' : ' text-gray-600')}  // TODO: 모바일에서 깨짐이 일어나서 width 직접 지정해줌
                 placeholder='닉네임 입력하기'
+                maxLength={10}
                 value={nickname}
                 onChange={(e) => setNickname(e.target.value)}
                 disabled={!isDuplicate}
                 required
               />
               <button
-                className={'grow-0 px-2 py-1 rounded bg-gray-200 text-sm font-semibold text-gray-500 lg:text-base'
+                className={'px-2 py-1 rounded bg-gray-200 text-sm font-semibold text-gray-500 lg:text-base'
                 + (isNicknameCheck ? (isDuplicate ? ' bg-red-400 text-red-50' : ' bg-green-400 text-green-50') : '')}
                 onClick={(e) => checkDuplication(e)}
               >
@@ -168,6 +169,7 @@ const SignUp = () => {
               type='text'
               className='w-full px-6 py-3 rounded-lg bg-gray-50 text-base font-medium text-gray-600 placeholder:text-gray-300 focus:outline-none lg:px-8 lg:py-4 lg:text-lg'
               placeholder='전공 이름 입력하기'
+              maxLength={20}
               value={deptName}
               onChange={(e) => setDeptName(e.target.value)}
               required
@@ -179,6 +181,7 @@ const SignUp = () => {
               type='text'
               className='w-full px-6 py-3 rounded-lg bg-gray-50 text-base font-medium text-gray-600 placeholder:text-gray-300 focus:outline-none lg:px-8 lg:py-4 lg:text-lg'
               placeholder='대학명 입력하기'
+              maxLength={15}
               value={univ}
               onChange={(e) => setUniv(e.target.value)}
               required
