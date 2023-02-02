@@ -79,7 +79,9 @@ const SignUp = () => {
             univ: univ,
             entranceYear: parseInt(entranceYearStr),
             oauthId: oauthId ?? '',
-            refreshToken: session?.refreshToken ?? ''
+            refreshToken: session?.refreshToken ?? '',
+            agreeTerms: true,
+            isCertified: false
           }).then(async (response: AxiosResponse<number>) => {
             setUserId(response.data)
             setOauthId(oauthId)

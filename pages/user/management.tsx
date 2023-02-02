@@ -38,7 +38,9 @@ const Management: NextPage = () => {
           entranceYear: userData.entranceYear,
           oauthId: userData.oauthId,
           refreshToken: userData.refreshToken,
-          isDelete: true
+          isDelete: true,
+          agreeTerms: userData.agreeTerms,
+          isCertified: userData.isCertified
         }).then(async () => {
           await setMessage('탈퇴가 완료되었습니다. 더 노력하는 에브리엔서가 되겠습니다.')
           await setIsSnackbarOpen(true)
