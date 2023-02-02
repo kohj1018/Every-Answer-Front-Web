@@ -6,7 +6,9 @@ export interface UpdateUserRequestType {
   entranceYear: number,
   oauthId: string,
   refreshToken: string,
-  isDelete: boolean
+  isDelete: boolean,
+  agreeTerms: boolean,
+  isCertified: boolean
 }
 
 export interface UpdateQuestionPostRequestType {

@@ -6,6 +6,8 @@ export interface AddUserType {
   entranceYear: number
   oauthId: string
   refreshToken: string
+  agreeTerms: boolean
+  isCertified: boolean
 }
 
 export interface AddQuestionPostType {
@@ -25,4 +27,9 @@ export interface AddAnswerPostType {
 export interface AddLikeLogAnswerPostType {
   answerPostId: number
   userId: number
+}
+
+export interface AddBlockUserLogType {
+  userId: number
+  blockUserId: number
 }
