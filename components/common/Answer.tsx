@@ -14,7 +14,7 @@ import { useRouter } from 'next/router'
 
 interface AnswerProps extends AnswerWithoutUserInfoProps {
   questionPostId: number
-  userId: number
+  userId: number  // 현재 사용자 아이디
 }
 
 export function Answer({ questionPostId, answerPostId, userId, authorId, nickname, deptName, likeNum, content, createdAt, updatedAt, setMessage, setIsSnackbarOpen }: AnswerProps) {
@@ -61,7 +61,7 @@ export function Answer({ questionPostId, answerPostId, userId, authorId, nicknam
   return (
     <article className='p-4 space-y-3.5 bg-white lg:px-5 lg:py-6 lg:space-y-4'>
       <header className='pb-3.5 flex items-center justify-between border-b border-gray-200'>
-        <Link href='/' className='space-y-0.5 text-sm lg:text-lg'>
+        <Link href={`/user/${authorId}`} className='space-y-0.5 text-sm lg:text-lg'>
           <p className='font-semibold text-gray-600'>{nickname}</p>
           <p className='font-medium text-gray-400'>{deptName}</p>
         </Link>
@@ -102,7 +102,7 @@ export function Answer({ questionPostId, answerPostId, userId, authorId, nicknam
 
 interface AnswerWithoutUserInfoProps {
   answerPostId: number
-  authorId: number
+  authorId: number  // 답변글 작성자 아이디
   nickname: string
   deptName: string
   likeNum: number
@@ -126,7 +126,7 @@ export function AnswerWithoutUserInfo({ answerPostId, authorId, nickname, deptNa
   return (
     <article className='p-4 space-y-3.5 bg-white lg:px-5 lg:py-6 lg:space-y-4'>
       <header className='pb-3.5 flex items-center justify-between border-b border-gray-200'>
-        <Link href='/' className='space-y-0.5 text-sm lg:text-lg'>
+        <Link href={`/user/${authorId}`} className='space-y-0.5 text-sm lg:text-lg'>
           <p className='font-semibold text-gray-600'>{nickname}</p>
           <p className='font-medium text-gray-400'>{deptName}</p>
         </Link>

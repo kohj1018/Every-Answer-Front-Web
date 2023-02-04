@@ -11,6 +11,7 @@ import { useQuery } from 'react-query'
 import { useRouter } from 'next/router'
 import { getOtherUserById } from '../../utils/apis/usersApi'
 import Link from 'next/link'
+import MobileCenterTitleHeader from '../../components/layout/mobileHeader/MobileCenterTitleHeader'
 
 const OtherUser = () => {
   const router = useRouter()
@@ -24,7 +25,9 @@ const OtherUser = () => {
   )
 
   return (
-    <MainContainer>
+    <MainContainer isHiddenHeaderAndFooterOnMobile={true}>
+      <MobileCenterTitleHeader router={router} title='유저 정보' />
+
       <main className='marginHeader py-10 px-5 lg:py-20 lg:mainWidthLimit'>
         <Suspense fallback={<p>loading...</p>}>
           <article className='w-full flex flex-col items-center space-y-3'>

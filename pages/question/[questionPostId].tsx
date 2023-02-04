@@ -92,7 +92,7 @@ const QuestionPost: NextPage = () => {
             <h1 className='mt-3 text-lg font-semibold text-gray-600 lg:mt-4 lg:text-2xl'>{questionPost?.title}</h1>
             <p className='mt-2 text-base font-medium text-gray-600 lg:text-lg'>{questionPost?.content}</p>
             <div className='mt-6 flex items-center justify-between text-sm font-semibold text-gray-400 lg:mt-8 lg:text-lg'>
-              <p>{questionPost?.user.nickname} 님</p>
+              <Link href={`/user/${questionPost?.user.userId}`}>{questionPost?.user.nickname} 님</Link>
               <p>{dayjs(questionPost?.createdAt).format('YY.MM.DD')}</p>
             </div>
           </article>
