@@ -24,6 +24,11 @@ import { SERVICE_VERSION } from '../../utils/config'
 const User: NextPage = () => {
   const router = useRouter()
   const { userId, oauthId } = useSignInInfoStore()
+  const { setMessage, setIsSnackbarOpen } = useSnackbarOpenStore()
+
+  // 로그인하지 않은 경우 Redirect
+  useRedirectIfNotSignIn(router, userId, oauthId, setMessage, setIsSnackbarOpen)
+
   const { data: userData } = useQuery(
     ['userInfo', userId],
     () => getOtherUserById(userId!),
@@ -31,10 +36,6 @@ const User: NextPage = () => {
       enabled: !!oauthId
     }
   )
-  const { setMessage, setIsSnackbarOpen } = useSnackbarOpenStore()
-
-  // 로그인하지 않은 경우 Redirect
-  useRedirectIfNotSignIn(router, userId, oauthId, setMessage, setIsSnackbarOpen)
 
   return (
     <MainContainer>
