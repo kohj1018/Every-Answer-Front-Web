@@ -6,7 +6,8 @@ const nextConfig = {
     domains: []
   },
   env: {
-    AIRTABLE_API_KEY: process.env.AIRTABLE_API_KEY
+    AIRTABLE_API_KEY: process.env.AIRTABLE_API_KEY,
+    SIGNIN_CALLBACK_URL: process.env.SIGNIN_CALLBACK_URL
   }
 }
 

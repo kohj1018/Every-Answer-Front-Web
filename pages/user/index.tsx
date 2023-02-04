@@ -19,6 +19,7 @@ import { useRouter } from 'next/router'
 import { useSnackbarOpenStore } from '../../stores/stores'
 import { useRedirectIfNotSignIn } from '../../hooks/useRedirectIfNotSignIn'
 import Link from 'next/link'
+import { SERVICE_VERSION } from '../../utils/config'
 
 const User: NextPage = () => {
   const router = useRouter()
@@ -101,7 +102,7 @@ const User: NextPage = () => {
                   <GitHub className='w-6 h-6 text-gray-300' />
                   <p className='text-base font-semibold text-gray-600'>앱 버전</p>
                 </div>
-                <p className='text-base font-semibold text-gray-600 lg:text-xl'><span className='text-sm font-semibold text-blue-500 lg:text-base'>beta </span>0.1.3</p>
+                <p className='text-base font-semibold text-gray-600 lg:text-xl'><span className='text-sm font-semibold text-blue-500 lg:text-base'>beta </span>{SERVICE_VERSION}</p>
               </div>
             </section>
           </article>
