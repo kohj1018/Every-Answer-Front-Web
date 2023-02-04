@@ -26,7 +26,7 @@ export interface UserType {
 
 export interface QuestionPostType {
   questionPostId: number
-  user: UserType
+  user: OtherUserType
   deptClass: DeptClassType
   title: string
   content: string
@@ -38,9 +38,25 @@ export interface QuestionPostType {
 export interface AnswerPostType {
   answerPostId: number
   questionPostId: number
-  user: UserType
+  user: OtherUserType
   likeNum: number
   content: string
   createdAt: string
   updatedAt: string | null
+}
+
+export interface OtherUserType {
+  userId: number
+  deptClass: DeptClassType
+  nickname: string
+  deptName: string
+  univ: string
+  entranceYear: number
+  createdAt: string
+  updatedAt: string | null
+  isDelete: boolean // 회원 탈퇴 여부
+  isCertified: boolean  // 학교 인증 여부
+  questionPostsList: number[] // 작성한 질문 글 ID 목록
+  answerPostsList: number[] // 작성한 답변 글 ID 목록
+  likeAnswerPostsList: number[] // 좋아요한 글 ID 목록
 }

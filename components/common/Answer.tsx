@@ -77,7 +77,25 @@ export function Answer({ questionPostId, answerPostId, userId, authorId, nicknam
 
       <p className='text-base font-medium text-gray-600 lg:text-lg'>{content}</p>
 
-      <footer className='text-sm font-semibold text-gray-400 lg:text-lg'>{getElapsedTime(dayjs(createdAt))}</footer>
+      <footer className='w-full flex items-center justify-between'>
+        <p className='text-sm font-semibold text-gray-400 lg:text-lg'>
+          {getElapsedTime(dayjs(createdAt))}
+        </p>
+        <Link
+          href={{
+            pathname: '/customerService',
+            query: {
+              type: '신고',
+              reportType: '답변글',
+              reportedId: answerPostId,
+              reportedInfo: content
+            }
+          }}
+          className='text-sm font-bold text-gray-300 lg:text-base'
+        >
+          신고하기
+        </Link>
+      </footer>
     </article>
   )
 }
@@ -123,7 +141,14 @@ export function AnswerWithoutUserInfo({ answerPostId, authorId, nickname, deptNa
 
       <p className='text-base font-medium text-gray-600 lg:text-lg'>{content}</p>
 
-      <footer className='text-sm font-semibold text-gray-400 lg:text-lg'>{getElapsedTime(dayjs(createdAt))}</footer>
+      <footer className='w-full flex items-center justify-between'>
+        <p className='text-sm font-semibold text-gray-400 lg:text-lg'>
+          {getElapsedTime(dayjs(createdAt))}
+        </p>
+        <button className='text-sm font-bold text-gray-300 lg:text-base'>
+          신고하기
+        </button>
+      </footer>
     </article>
   )
 }

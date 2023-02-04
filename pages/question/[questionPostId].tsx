@@ -1,7 +1,7 @@
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import MainContainer from '../../components/layout/MainContainer'
-import MobileBackHeader from '../../components/layout/mobileHeader/MobileBackHeader'
+import MobileBackHeaderWithBtn from '../../components/layout/mobileHeader/MobileBackHeaderWithBtn'
 import DeptClassTag from '../../components/tag/DeptClassTag'
 import { useQuery } from 'react-query'
 import dayjs from 'dayjs'
@@ -14,34 +14,77 @@ import { Answer, AnswerWithoutUserInfo } from '../../components/common/Answer'
 import { ChevronLeft } from 'react-feather'
 import { useSignInInfoStore } from '../../stores/localStorageStore/stores'
 import { useSnackbarOpenStore } from '../../stores/stores'
+import { MenuItem } from '@mui/material'
 
 
 const QuestionPost: NextPage = () => {
   const router = useRouter()
   const userId = useSignInInfoStore(state => state.userId)
-  const questionPostId: number = parseInt(router.query.questionPostId as string ?? '1')
-  const { data: questionPost, isLoading: isQuestionPostLoading } = useQuery<QuestionPostType>(['questionPost', questionPostId], () => getQuestionPostById(questionPostId))
-  const { data: answerPostList, isLoading: isAnswerPostLoading } = useQuery<AnswerPostType[]>(['answerPostList', questionPostId], () => getAnswerPostListByQuestionPostId(questionPostId))
+  const questionPostId: number = parseInt(router.query.questionPostId as string)
+  const { data: questionPost, isLoading: isQuestionPostLoading } = useQuery<QuestionPostType>(
+    ['questionPost', questionPostId],
+    () => getQuestionPostById(questionPostId),
+    {
+      enabled: !!questionPostId
+    }
+  )
+  const { data: answerPostList, isLoading: isAnswerPostLoading } = useQuery<AnswerPostType[]>(
+    ['answerPostList', questionPostId],
+    () => getAnswerPostListByQuestionPostId(questionPostId),
+    {
+      enabled: !!questionPostId
+    }
+  )
   const { setMessage, setIsSnackbarOpen } = useSnackbarOpenStore()
 
 
 
-  if (isQuestionPostLoading || isAnswerPostLoading) return <p>loaindg...</p>
+  if (isQuestionPostLoading || isAnswerPostLoading) return <p>loading...</p>
 
   return (
     <MainContainer isHiddenHeaderAndFooterOnMobile={true}>
-      <MobileBackHeader router={router} title='홈' />
+      <MobileBackHeaderWithBtn router={router} title='홈'>
+        <MenuItem
+          onClick={() => router.push({
+            pathname: '/customerService',
+            query: {
+              type: '신고',
+              reportType: '질문글',
+              reportedId: questionPostId,
+              reportedInfo: questionPost?.title
+            }
+          })}
+        >
+          신고하기
+        </MenuItem>
+      </MobileBackHeaderWithBtn>
 
       <main className='marginHeader'>
         {/* 질문 글 */}
         <Suspense fallback={<p>loading...</p>}>
           <article className='px-5 py-6 bg-white lg:py-12 lg:mainWidthLimit'>
-            <article className='hidden pb-8 items-center space-x-1 lg:flex'>
-              <ChevronLeft className='w-3 h-3 text-gray-400' />
-              <p className='text-xs font-bold text-gray-500'>홈</p>
-              <ChevronLeft className='w-3 h-3 text-gray-400' />
-              <p className='text-xs font-bold text-gray-500'>Q&A 상세페이지</p>
-            </article>
+            <div className='hidden pb-8 items-center justify-between lg:flex'>
+              <article className='flex items-center space-x-1'>
+                <ChevronLeft className='w-3 h-3 text-gray-400' />
+                <p className='text-xs font-bold text-gray-500'>홈</p>
+                <ChevronLeft className='w-3 h-3 text-gray-400' />
+                <p className='text-xs font-bold text-gray-500'>Q&A 상세페이지</p>
+              </article>
+              <Link
+                href={{
+                  pathname: '/customerService',
+                  query: {
+                    type: '신고',
+                    reportType: '질문글',
+                    reportedId: questionPostId,
+                    reportedInfo: questionPost?.title
+                  }
+                }}
+                className='text-base font-bold text-gray-300'
+              >
+                신고하기
+              </Link>
+            </div>
 
             {questionPost &&
               <DeptClassTag name={questionPost.deptClass.name} />

@@ -13,7 +13,7 @@ import {
 } from 'react-feather'
 import { useQuery } from 'react-query'
 import { useSignInInfoStore } from '../../stores/localStorageStore/stores'
-import { getUserById } from '../../utils/apis/usersApi'
+import { getOtherUserById } from '../../utils/apis/usersApi'
 import React, { Suspense } from 'react'
 import { useRouter } from 'next/router'
 import { useSnackbarOpenStore } from '../../stores/stores'
@@ -25,9 +25,9 @@ const User: NextPage = () => {
   const { userId, oauthId } = useSignInInfoStore()
   const { data: userData } = useQuery(
     ['userInfo', userId],
-    () => getUserById(userId!),
+    () => getOtherUserById(userId!),
     {
-      enabled: !!userId
+      enabled: !!oauthId
     }
   )
   const { setMessage, setIsSnackbarOpen } = useSnackbarOpenStore()

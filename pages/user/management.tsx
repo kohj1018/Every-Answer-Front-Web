@@ -7,7 +7,7 @@ import { ChevronRight, Lock, LogOut } from 'react-feather'
 import { useSignInInfoStore } from '../../stores/localStorageStore/stores'
 import { useSnackbarOpenStore } from '../../stores/stores'
 import { MuiDialog } from '../../components/common/MuiDialog'
-import { getUserById, updateUser } from '../../utils/apis/usersApi'
+import { getUserByOauthId, updateUser } from '../../utils/apis/usersApi'
 
 const Management: NextPage = () => {
   const router = useRouter()
@@ -28,9 +28,9 @@ const Management: NextPage = () => {
   // 계정 탈퇴 함수
   const deleteAccount = async () => {
     if (userId && oauthId) {
-      const userData = await getUserById(userId)
+      const userData = await getUserByOauthId(oauthId)
       if (!!userData) {
-        await updateUser(userId, {
+        await updateUser(oauthId, {
           deptId: userData.deptClass.deptId,
           nickname: userData.nickname,
           deptName: userData.deptName,

@@ -25,7 +25,7 @@ const TermsAndConditions: NextPage = () => {
     if (session?.user.oauthId) {
       ;(async () => {
         const responseUserId: number = await getUserIdByOauthId(session.user.oauthId)
-        if (responseUserId > -1) {  // responseUserId = -1은 해당하는 유저가 없다는 뜻. 즉, -1보다 크면 이미 가입한 유저라는 것
+        if (responseUserId > -1) {  // responseUserId이 -1보다 크면 이미 가입한 유저라는 것  (responseUserId = -1 은 해당하는 유저가 없다는 뜻)
           await setMessage('다시 만나 반가워요 😀')
           await setIsSnackbarOpen(true)
           setOauthId(session.user.oauthId)

@@ -4,6 +4,9 @@ const nextConfig = {
   swcMinify: true,
   images: {
     domains: []
+  },
+  env: {
+    AIRTABLE_API_KEY: process.env.AIRTABLE_API_KEY
   }
 }
 

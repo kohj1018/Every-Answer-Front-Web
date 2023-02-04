@@ -1,17 +1,17 @@
 import { UpdateUserRequestType } from '../types/updateRequestTypes'
 import { AddUserType } from '../types/addRequestTypes'
 import { ec2 } from './apiConfig'
-import { UserType } from '../types/responseTypes'
+import { OtherUserType, UserType } from '../types/responseTypes'
 
-/** ID로 유저 정보 불러오기 */
-export const getUserById = async (userId: number): Promise<UserType> => {
-  const res = await ec2.get<UserType>(`/users/${userId}`)
+/** OauthId로 유저 정보 불러오기 */
+export const getUserByOauthId = async (oauthId: string): Promise<UserType> => {
+  const res = await ec2.get<UserType>(`/users/${oauthId}`)
   return res.data
 }
 
 /** OauthId로 유저 Id 불러오기 */
 export const getUserIdByOauthId = async (oauthId: string): Promise<number> => {
-  const res = await ec2.get<number>(`/users/oauth/${oauthId}`)
+  const res = await ec2.get<number>(`/users/findUserId/${oauthId}`)
   return res.data
 }
 
@@ -22,7 +22,7 @@ export const checkNicknameDuplicate = async (nickname: string): Promise<boolean>
 }
 
 /** 유저 정보 수정하기 */
-export const updateUser = (userId: number, updateUserRequest: UpdateUserRequestType) => ec2.put(`/users/${userId}`, {
+export const updateUser = (oauthId: string, updateUserRequest: UpdateUserRequestType) => ec2.put(`/users/${oauthId}`, {
   deptId: updateUserRequest.deptId,
   nickname: updateUserRequest.nickname,
   deptName: updateUserRequest.deptName,
@@ -45,3 +45,8 @@ export const addUser = (addUserRequest: AddUserType) => ec2.post('/users', {
   isDelete: false
 })
 
+/** 다른 유저의 정보 ID로 불러오기 (제한된 정보) */
+export const getOtherUserById = async (otherUserId: number): Promise<OtherUserType> => {
+  const res = await ec2.get<OtherUserType>(`/users/other/${otherUserId}`)
+  return res.data
+}
