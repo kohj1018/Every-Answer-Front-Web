@@ -6,8 +6,6 @@ import { ClientSafeProvider, getProviders, LiteralUnion, signIn } from 'next-aut
 import { useEffect, useState } from 'react'
 import { BuiltInProviderType } from 'next-auth/providers'
 import googleLogo from '../../public/googleLogo.svg'
-import { mockProviders } from 'next-auth/client/__tests__/helpers/mocks'
-import callbackUrl = mockProviders.github.callbackUrl
 import { useSignInInfoStore } from '../../stores/localStorageStore/stores'
 import { useSnackbarOpenStore } from '../../stores/stores'
 import { useRouter } from 'next/router'
@@ -26,12 +24,14 @@ const SignIn = () => {
 
   // Providers를 불러옴
   useEffect(() => {
+    setIsLoading(true)
     ;(async () => {
       await getProviders()
         .then((res) => setProviders(res))
         .catch((e) => {
           alert('Error! : ' + e.response)
         })
+        .finally(() => setIsLoading(false))
     })()
   }, [])
 

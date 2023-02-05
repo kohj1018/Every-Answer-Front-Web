@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { SignInInfoPersist, SignInInfoState } from './storeTypes'
+import { BlockUserIdListPersist, BlockUserIdListState, SignInInfoPersist, SignInInfoState } from './storeTypes'
 import { persist } from 'zustand/middleware'
 
 /** 유저 아이디와 OAuth에서 받은 id를 저장하는 Store */
@@ -17,6 +17,21 @@ export const useSignInInfoStore = create<SignInInfoState>(
     }),
     {
       name: 'signInInfo'
+    }
+  )
+)
+
+/** 차단한 유저의 id들을 저장하는 Store */
+export const useBlockUserIdListStore = create<BlockUserIdListState>(
+  (persist as BlockUserIdListPersist)(
+    (set) => ({
+      blockUserIdList: [],
+      setBlockUserIdList: (blockUserIdList: number[]) => {
+        set((state) => ({...state, blockUserIdList: blockUserIdList}))
+      }
+    }),
+    {
+      name: 'blockUserIdList'
     }
   )
 )

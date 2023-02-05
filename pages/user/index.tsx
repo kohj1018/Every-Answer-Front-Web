@@ -28,7 +28,9 @@ const User: NextPage = () => {
     ['userInfo', userId],
     () => getOtherUserById(userId!),
     {
-      enabled: !!(userId && oauthId)
+      enabled: !!(userId && oauthId),
+      staleTime: 30000, // 30초
+      refetchOnWindowFocus: false
     }
   )
   const { setMessage, setIsSnackbarOpen } = useSnackbarOpenStore()
@@ -60,7 +62,7 @@ const User: NextPage = () => {
           </article>
 
           <article className='mt-6 w-full flex justify-between gap-x-2 lg:mt-10 lg:gap-x-3.5'>
-            <BoxButton name='작성한 글' link='/'>
+            <BoxButton name='질문한 글' link='/'>
               <Edit3 className='w-5 h-5 text-gray-600' />
             </BoxButton>
             <BoxButton name='답변한 글' link='/'>

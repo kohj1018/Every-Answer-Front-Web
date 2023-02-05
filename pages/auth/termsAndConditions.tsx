@@ -6,13 +6,15 @@ import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useSnackbarOpenStore } from '../../stores/stores'
-import { useSignInInfoStore } from '../../stores/localStorageStore/stores'
-import { getUserIdByOauthId } from '../../utils/apis/usersApi'
+import { useBlockUserIdListStore, useSignInInfoStore } from '../../stores/localStorageStore/stores'
+import { getUserByOauthId, getUserIdByOauthId } from '../../utils/apis/usersApi'
 import { useSession } from 'next-auth/react'
+import { useQuery } from 'react-query'
 
 const TermsAndConditions: NextPage = () => {
   const router = useRouter()
   const { setUserId, setOauthId } = useSignInInfoStore()
+  const setBlockUserIdList = useBlockUserIdListStore(state => state.setBlockUserIdList)
   const { data: session } = useSession()
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [agreeTerms, setAgreeTerms] = useState<boolean>(false)
@@ -30,6 +32,8 @@ const TermsAndConditions: NextPage = () => {
           await setIsSnackbarOpen(true)
           setOauthId(session.user.oauthId)
           setUserId(responseUserId)
+          await getUserByOauthId(session.user.oauthId)
+            .then((res) => setBlockUserIdList(res.blockUserIdList))
           await router.push('/')
         } else {
           setOauthId(session.user.oauthId)

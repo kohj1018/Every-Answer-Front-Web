@@ -10,6 +10,7 @@ import { ARBITRARY_LARGEST_LAST_QUESTIONPOST_ID } from '../utils/config'
 import { getInfiniteQuestionPostList } from '../utils/apis/questionPostsApi'
 import { useScrollYStore } from '../stores/stores'
 import SEO from '../components/SEO'
+import useBlockUserIdList from '../hooks/useBlockUserIdList'
 
 const Home: NextPage = () => {
   const { ref, inView } = useInView()
@@ -18,10 +19,12 @@ const Home: NextPage = () => {
     ({ pageParam = ARBITRARY_LARGEST_LAST_QUESTIONPOST_ID }) => getInfiniteQuestionPostList(pageParam),
     {
       getNextPageParam: (lastPage) =>
-        !lastPage.isLast ? lastPage.nextLastPostId : undefined
+        !lastPage.isLast ? lastPage.nextLastPostId : undefined,
+      staleTime: 10000 // 10초
     }
   )
   const scrollY = useScrollYStore(state => state.scrollY) // 스크롤 위치 저장
+  const blockUserIdList: number[] = useBlockUserIdList()
 
   // 바닥에 닿으면 새로 불러오기
   useEffect(() => {
@@ -40,7 +43,7 @@ const Home: NextPage = () => {
 
   return (
     <MainContainer>
-      <SEO title='대학생 전공질문 플랫폼 - 에브리엔서' />
+      <SEO title='에브리엔서 - 대학생 전공질문 플랫폼' />
 
       <main className='marginHeader pt-8 px-5 lg:pt-12 lg:mainWidthLimit'>
         {/* 메인 피드 */}
@@ -48,9 +51,13 @@ const Home: NextPage = () => {
         <section className='mt-4 space-y-2.5 lg:mt-6 lg:space-y-3.5'>
           {data?.pages.map((page, index) => (
             <React.Fragment key={index}>
-              {page.postList.map((questionPost) =>
-                <QuestionPreview key={questionPost.questionPostId} questionPost={questionPost} />
-              )}
+              {page.postList.map((questionPost) => {
+                if (!blockUserIdList.includes(questionPost.user.userId)) {
+                  return (
+                    <QuestionPreview key={questionPost.questionPostId} questionPost={questionPost} />
+                  )
+                }
+              })}
             </React.Fragment>
           ))}
         </section>

@@ -12,7 +12,7 @@ import { getQuestionPostById } from '../../utils/apis/questionPostsApi'
 import { getAnswerPostListByQuestionPostId } from '../../utils/apis/answerPostsApi'
 import { Answer, AnswerWithoutUserInfo } from '../../components/common/Answer'
 import { ChevronLeft } from 'react-feather'
-import { useSignInInfoStore } from '../../stores/localStorageStore/stores'
+import { useBlockUserIdListStore, useSignInInfoStore } from '../../stores/localStorageStore/stores'
 import { useSnackbarOpenStore } from '../../stores/stores'
 import { MenuItem } from '@mui/material'
 
@@ -36,6 +36,7 @@ const QuestionPost: NextPage = () => {
     }
   )
   const { setMessage, setIsSnackbarOpen } = useSnackbarOpenStore()
+  const blockUserIdList = useBlockUserIdListStore(state => state.blockUserIdList)
 
 
 
@@ -131,41 +132,44 @@ const QuestionPost: NextPage = () => {
 
 
               <section className='mt-3 space-y-3 lg:mt-6 lg:space-y-4'>
-                {userId ? (
-                  answerPostList?.map((answerPost) =>
-                    <Answer
-                      key={answerPost.answerPostId}
-                      questionPostId={answerPost.questionPostId}
-                      answerPostId={answerPost.answerPostId}
-                      userId={userId}
-                      authorId={answerPost.user.userId}
-                      nickname={answerPost.user.nickname}
-                      deptName={answerPost.user.deptName}
-                      likeNum={answerPost.likeNum}
-                      content={answerPost.content}
-                      createdAt={answerPost.createdAt}
-                      updatedAt={answerPost.updatedAt}
-                      setMessage={setMessage}
-                      setIsSnackbarOpen={setIsSnackbarOpen}
-                    />
-                  )
-                ) : (
-                  answerPostList?.map((answerPost) =>
-                    <AnswerWithoutUserInfo
-                      key={answerPost.answerPostId}
-                      answerPostId={answerPost.answerPostId}
-                      authorId={answerPost.user.userId}
-                      nickname={answerPost.user.nickname}
-                      deptName={answerPost.user.deptName}
-                      likeNum={answerPost.likeNum}
-                      content={answerPost.content}
-                      createdAt={answerPost.createdAt}
-                      updatedAt={answerPost.updatedAt}
-                      setMessage={setMessage}
-                      setIsSnackbarOpen={setIsSnackbarOpen}
-                    />
-                  )
-                )}
+                {answerPostList?.map((answerPost) => {
+                  const isBlock = blockUserIdList.includes(answerPost.user.userId)
+                  if (!!userId) {
+                    return (
+                      <Answer
+                        key={answerPost.answerPostId}
+                        questionPostId={answerPost.questionPostId}
+                        answerPostId={answerPost.answerPostId}
+                        userId={userId}
+                        authorId={answerPost.user.userId}
+                        nickname={isBlock ? '차단한 사용자' : answerPost.user.nickname}
+                        deptName={isBlock ? '' : answerPost.user.deptName}
+                        likeNum={answerPost.likeNum}
+                        content={isBlock ? '차단한 사용자의 글입니다.' : answerPost.content}
+                        createdAt={answerPost.createdAt}
+                        updatedAt={answerPost.updatedAt}
+                        setMessage={setMessage}
+                        setIsSnackbarOpen={setIsSnackbarOpen}
+                      />
+                    )
+                  } else {
+                    return (
+                      <AnswerWithoutUserInfo
+                        key={answerPost.answerPostId}
+                        answerPostId={answerPost.answerPostId}
+                        authorId={answerPost.user.userId}
+                        nickname={answerPost.user.nickname}
+                        deptName={answerPost.user.deptName}
+                        likeNum={answerPost.likeNum}
+                        content={answerPost.content}
+                        createdAt={answerPost.createdAt}
+                        updatedAt={answerPost.updatedAt}
+                        setMessage={setMessage}
+                        setIsSnackbarOpen={setIsSnackbarOpen}
+                      />
+                    )
+                  }
+                })}
               </section>
             </section>
           </section>

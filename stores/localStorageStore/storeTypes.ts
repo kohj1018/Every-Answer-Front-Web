@@ -11,3 +11,12 @@ export type SignInInfoPersist = (
   config: StateCreator<SignInInfoState>,
   options: PersistOptions<SignInInfoState>
 ) => StateCreator<SignInInfoState>
+
+export type BlockUserIdListState = {
+  blockUserIdList: number[]
+  setBlockUserIdList: (blockUserIdList: number[]) => void
+}
+export type BlockUserIdListPersist = (
+  config: StateCreator<BlockUserIdListState>,
+  options: PersistOptions<BlockUserIdListState>
+) => StateCreator<BlockUserIdListState>
