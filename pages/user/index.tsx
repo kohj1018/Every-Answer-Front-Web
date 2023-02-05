@@ -77,7 +77,7 @@ const User: NextPage = () => {
           <article className='mt-8 space-y-6 lg:mt-10 lg:space-y-7'>
             <header className='text-lg font-semibold text-gray-700 lg:text-2xl'>고객센터</header>
             <section className='space-y-6'>
-              <MenuItem name='문의/건의하기' link='/' isOutLink={false}>
+              <MenuItem name='문의/건의하기' link='/customerService' isOutLink={false}>
                 <HelpCircle className='w-6 h-6 text-gray-300' />
               </MenuItem>
               <MenuItem name='서비스 이용약관' link='https://everyanswer.notion.site/671d4d06945140539fc3bdb9539d4c57' isOutLink={true}>
