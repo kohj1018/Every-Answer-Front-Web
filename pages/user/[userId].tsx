@@ -152,7 +152,7 @@ const OtherUser = () => {
             <div className='w-[3.625rem] h-[3.625rem] flex items-center justify-center rounded-full bg-gray-100 lg:w-[5rem] lg:h-[5rem]'>
               <UserIcon className='w-8 h-8 text-gray-400 lg:w-11 lg:h-11' />
             </div>
-            <p className='text-lg font-semibold text-gray-900 lg:text-2xl'>{otherUserData?.nickname! + (isBlock ? ' (차단한 유저)' : '')}</p>
+            <p className='text-lg font-semibold text-gray-900 lg:text-2xl'>{otherUserData?.nickname + (otherUserData?.nickname && isBlock ? ' (차단한 유저)' : '')}</p>
           </article>
 
           <article className='mt-8 py-6 grid grid-cols-[128px_1fr] gap-y-[1.125rem] text-gray-800 border-y border-gray-100 lg:mt-20 lg:grid-cols-[300px_1fr]'>

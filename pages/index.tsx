@@ -57,6 +57,7 @@ const Home: NextPage = () => {
                     <QuestionPreview key={questionPost.questionPostId} questionPost={questionPost} />
                   )
                 }
+                return <></>  // 차단한 유저의 글
               })}
             </React.Fragment>
           ))}
