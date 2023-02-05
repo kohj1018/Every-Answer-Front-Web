@@ -59,7 +59,7 @@ const QuestionPost: NextPage = () => {
         </MenuItem>
       </MobileBackHeaderWithBtn>
 
-      <main className='marginHeader'>
+      <main className='marginHeader min-h-screen-except-marginHeader flex flex-col'>
         {/* 질문 글 */}
         <Suspense fallback={<p>loading...</p>}>
           <article className='px-5 py-6 bg-white lg:py-12 lg:mainWidthLimit'>
@@ -100,7 +100,7 @@ const QuestionPost: NextPage = () => {
 
         {/* 답변 영역 */}
         <Suspense fallback={<p>loading...</p>}>
-          <section className='px-5 py-6 bg-gray-50 lg:mainWidthLimit'>
+          <section className='grow px-5 py-6 bg-gray-50 lg:mainWidthLimit'>
             {/* 답변 유도 버튼 */}
             <article className='px-4 py-3 flex items-center justify-between rounded bg-gray-100 lg:px-6 lg:py-5'>
               <p className='text-base font-semibold text-gray-400 lg:text-lg'>답변을 달아주세요!</p>

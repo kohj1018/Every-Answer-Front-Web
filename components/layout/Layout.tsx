@@ -11,7 +11,7 @@ interface Props {
 function Layout({ children }: Props) {
   const { isSnackbarOpen, setIsSnackbarOpen, message } = useSnackbarOpenStore()
 
-  return <div className='min-h-screen h-full min-w-[300px] w-full bg-white'>
+  return <div className='min-h-screen-except-marginHeader h-full min-w-[300px] w-full bg-white'>
     {children}
     <BottomCenterSnackbar isSnackbarOpen={isSnackbarOpen} setIsSnackbarOpen={setIsSnackbarOpen} message={message} />
   </div>
