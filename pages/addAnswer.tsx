@@ -75,18 +75,18 @@ const AddAnswer: NextPage = () => {
 
         {/* 답변 작성 부분 */}
         <article className='mt-2 bg-white'>
-          <div className='border-b border-gray-100'>
-            <section className='px-5 py-4 flex items-center space-x-4 lg:mainWidthLimit'>
-              <button className='flex items-center space-x-1.5'>
-                <Image className='w-6 h-6 text-gray-600' />
-                <p className='text-sm font-semibold text-gray-400 lg:text-lg'>사진첨부</p>
-              </button>
-              <button className='flex items-center space-x-1.5'>
-                <FileText className='w-6 h-6 text-gray-600' />
-                <p className='text-sm font-semibold text-gray-400 lg:text-lg'>파일첨부</p>
-              </button>
-            </section>
-          </div>
+          {/*<div className='border-b border-gray-100'>*/}
+          {/*  <section className='px-5 py-4 flex items-center space-x-4 lg:mainWidthLimit'>*/}
+          {/*    <button className='flex items-center space-x-1.5'>*/}
+          {/*      <Image className='w-6 h-6 text-gray-600' />*/}
+          {/*      <p className='text-sm font-semibold text-gray-400 lg:text-lg'>사진첨부</p>*/}
+          {/*    </button>*/}
+          {/*    <button className='flex items-center space-x-1.5'>*/}
+          {/*      <FileText className='w-6 h-6 text-gray-600' />*/}
+          {/*      <p className='text-sm font-semibold text-gray-400 lg:text-lg'>파일첨부</p>*/}
+          {/*    </button>*/}
+          {/*  </section>*/}
+          {/*</div>*/}
 
           <form className='px-5 py-6 lg:py-8 lg:mainWidthLimit'>
             <textarea

@@ -39,7 +39,6 @@ const QuestionPost: NextPage = () => {
   const blockUserIdList = useBlockUserIdListStore(state => state.blockUserIdList)
 
 
-
   if (isQuestionPostLoading || isAnswerPostLoading) return <p>loading...</p>
 
   return (
@@ -103,25 +102,27 @@ const QuestionPost: NextPage = () => {
         <Suspense fallback={<p>loading...</p>}>
           <section className='grow px-5 py-6 bg-gray-50 lg:mainWidthLimit'>
             {/* 답변 유도 버튼 */}
-            <article className='px-4 py-3 flex items-center justify-between rounded bg-gray-100 lg:px-6 lg:py-5'>
-              <p className='text-base font-semibold text-gray-400 lg:text-lg'>답변을 달아주세요!</p>
-              <Link
-                href={{
-                  pathname: '/addAnswer',
-                  query: {
-                    questionPostId: questionPostId,
-                    deptClassName: questionPost?.deptClass.name,
-                    questionTitle: questionPost?.title,
-                    questionContent: questionPost?.content,
-                    questionUserNickname: questionPost?.user.nickname,
-                    questionCreatedAt: questionPost?.createdAt
-                  }
-                }}
-                className='px-3 py-2 rounded bg-green-500 text-center'
-              >
-                <p className='text-sm text-semibold text-gray-50 lg:text-lg'>답변하기</p>
-              </Link>
-            </article>
+            {userId !== questionPost?.user.userId &&
+              <article className='px-4 py-3 flex items-center justify-between rounded bg-gray-100 lg:px-6 lg:py-5'>
+                <p className='text-base font-semibold text-gray-400 lg:text-lg'>답변을 달아주세요!</p>
+                <Link
+                  href={{
+                    pathname: '/addAnswer',
+                    query: {
+                      questionPostId: questionPostId,
+                      deptClassName: questionPost?.deptClass.name,
+                      questionTitle: questionPost?.title,
+                      questionContent: questionPost?.content,
+                      questionUserNickname: questionPost?.user.nickname,
+                      questionCreatedAt: questionPost?.createdAt
+                    }
+                  }}
+                  className='px-3 py-2 rounded bg-green-500 text-center'
+                >
+                  <p className='text-sm text-semibold text-gray-50 lg:text-lg'>답변하기</p>
+                </Link>
+              </article>
+            }
 
             {/* 답변 글들 */}
             <section className='mt-6'>
