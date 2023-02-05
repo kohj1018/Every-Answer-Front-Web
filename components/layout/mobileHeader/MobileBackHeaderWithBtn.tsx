@@ -13,7 +13,7 @@ function MobileBackHeaderWithBtn({ router, title, children }: Props) {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
 
   return (
-    <header className='fixed top-0 inset-x-0 px-5 py-4 flex items-center justify-between bg-white border-b border-gray-100 shadow-sm-custom lg:hidden'>
+    <header className='fixed top-0 inset-x-0 px-5 py-4 flex items-center justify-between bg-white border-b border-gray-100 shadow-sm-custom z-50 lg:hidden'>
       <button
         onClick={() => router.back()}
         className='flex items-center space-x-1'

@@ -8,7 +8,7 @@ interface Props {
 
 function MobileCancelHeader({ router, title }: Props) {
   return (
-    <header className='fixed top-0 inset-x-0 px-5 py-4 flex items-center justify-center bg-white border-b border-gray-100 shadow-sm-custom lg:hidden'>
+    <header className='fixed top-0 inset-x-0 px-5 py-4 flex items-center justify-center bg-white border-b border-gray-100 shadow-sm-custom z-50 lg:hidden'>
       <button
         onClick={() => router.back()}
         className='absolute left-5'
