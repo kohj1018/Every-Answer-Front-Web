@@ -42,7 +42,9 @@ export const addUser = (addUserRequest: AddUserType) => ec2.post('/users', {
   entranceYear: addUserRequest.entranceYear,
   oauthId: addUserRequest.oauthId,
   refreshToken: addUserRequest.refreshToken,
-  isDelete: false
+  isDelete: false,
+  agreeTerms: addUserRequest.agreeTerms,
+  isCertified: addUserRequest.isCertified
 })
 
 /** 다른 유저의 정보 ID로 불러오기 (제한된 정보) */

@@ -16,7 +16,7 @@ export function useRedirectIfSignIn(
       ;(async () => {
         await setMessage('이미 로그인 되어 있습니다.')
         await setIsSnackbarOpen(true)
-        router.back()
+        await router.replace('/')
       })()
     }
     if (!!setIsLoading) {

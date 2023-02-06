@@ -3,6 +3,7 @@ import { useAutocomplete } from '@mui/base/AutocompleteUnstyled'
 import { DEPT_CLASS_LIST, DeptClassMinimalType } from '../../utils/constants/serviceConstants'
 import { autocompleteClasses } from '@mui/material/Autocomplete'
 import { useEffect } from 'react'
+import { DeptClassType } from '../../utils/types/responseTypes'
 
 const InputWrapper = styled('div')(
   ({ theme }) => `
@@ -88,10 +89,11 @@ const Listbox = styled('ul')(
 );
 
 interface Props {
-  setSelectedDept: (selectedTopics: DeptClassMinimalType) => void
+  deptClassList: DeptClassType[]
+  setSelectedDept: (selectedDeptClass: DeptClassType) => void
 }
 
-export default function MuiDeptClassComboBox({ setSelectedDept }: Props) {
+export default function MuiDeptClassComboBox({ deptClassList, setSelectedDept }: Props) {
   const {
     getRootProps,
     getInputProps,
@@ -101,7 +103,7 @@ export default function MuiDeptClassComboBox({ setSelectedDept }: Props) {
     value
   } = useAutocomplete({
     id: 'use-autocomplete-demo',
-    options: DEPT_CLASS_LIST,
+    options: deptClassList,
     getOptionLabel: (option) => option.name,
   });
 
@@ -125,8 +127,8 @@ export default function MuiDeptClassComboBox({ setSelectedDept }: Props) {
       </div>
       {groupedOptions.length > 0 ? (
         <Listbox {...getListboxProps()}>
-          {(groupedOptions as typeof DEPT_CLASS_LIST).map((option, index) => (
-            <li key={index} {...getOptionProps({ option, index })}>{option.name}</li>
+          {(groupedOptions as DeptClassType[]).map((option, index) => (
+            <li key={index} {...getOptionProps({ option, index })}>{option.name === "기타 전공" ? "기타 전공 (추후 추가 예정)" : option.name}</li>
           ))}
         </Listbox>
       ) : null}

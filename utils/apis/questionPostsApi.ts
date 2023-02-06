@@ -14,7 +14,7 @@ export const getQuestionPostById = async (questionPostId: number): Promise<Quest
 export const getInfiniteQuestionPostList = async (lastPostId: number) => {
   const res = await ec2.get<QuestionPostType[]>(`/questionPosts?lastPostId=${lastPostId}&size=${INFINITE_SCROLL_LOAD_SIZE}`)
   const postList: QuestionPostType[] = res.data
-  return { postList, nextLastPostId: postList[postList.length - 1].questionPostId, isLast: postList.length < 20 }
+  return { postList, nextLastPostId: postList[postList.length - 1]?.questionPostId, isLast: postList.length < 20 }
 }
 
 /** 질문글 검색하기 */

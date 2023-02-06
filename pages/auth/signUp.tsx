@@ -4,7 +4,6 @@ import { useSession } from 'next-auth/react'
 import { addUser, checkNicknameDuplicate } from '../../utils/apis/usersApi'
 import MainContainer from '../../components/layout/MainContainer'
 import MobileCenterTitleHeader from '../../components/layout/mobileHeader/MobileCenterTitleHeader'
-import { DeptClassMinimalType } from '../../utils/constants/serviceConstants'
 import MuiDeptClassComboBox from '../../components/common/MuiDeptClassComboBox'
 import { Check, ChevronLeft } from 'react-feather'
 import { checkCharacter } from '../../utils/functions/checkCharacter'
@@ -14,12 +13,15 @@ import { useSnackbarOpenStore } from '../../stores/stores'
 import { useRouter } from 'next/router'
 import dayjs from 'dayjs'
 import { useRedirectIfSignIn } from '../../hooks/useRedirectIfSignIn'
+import { useQuery } from 'react-query'
+import { getAllDeptClass } from '../../utils/apis/deptClassApi'
+import { DeptClassType } from '../../utils/types/responseTypes'
 
 const SignUp = () => {
   const router = useRouter()
   const { userId, setUserId, oauthId, setOauthId } = useSignInInfoStore()
   const { data: session } = useSession()
-  const [selectedDept, setSelectedDept] = useState<DeptClassMinimalType | null>(null)
+  const [selectedDept, setSelectedDept] = useState<DeptClassType | null>(null)
   const [nickname, setNickname] = useState<string>('')
   const [isNicknameCheck, setIsNicknameCheck] = useState<boolean>(false)
   const [isDuplicate, setIsDuplicate] = useState<boolean>(true)
@@ -27,10 +29,26 @@ const SignUp = () => {
   const [univ, setUniv] = useState<string>('')
   const [entranceYearStr, setEntranceYearStr] = useState<string>('')
   const { setIsSnackbarOpen, setMessage } = useSnackbarOpenStore()
+  const { data: deptClassList, isLoading } = useQuery(
+    'deptClassList',
+    getAllDeptClass,
+    {
+      enabled: !userId || !oauthId
+    }
+  )
+  const [isSignInLoading, setIsSignInLoading] = useState<boolean>(false)  // TODO : 로그인 중 redirect 를 막기 위한 변수 (추후 개선하면 좋을 듯)
 
   // 이미 로그인을 한 경우 Redirect
-  useRedirectIfSignIn(router, userId, oauthId, setMessage, setIsSnackbarOpen)
-
+  // useRedirectIfSignIn(router, userId, oauthId, setMessage, setIsSnackbarOpen)
+  useEffect(() => {
+    if (userId && oauthId && !isSignInLoading) {  // !isSignInLoading으로 로그인 중 redirect를 막음
+      ;(async () => {
+        await setMessage('이미 로그인 되어 있습니다.')
+        await setIsSnackbarOpen(true)
+        await router.replace('/')
+      })()
+    }
+  }, [userId, oauthId])
 
   // 닉네임 중복 검사
   const checkDuplication = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -83,8 +101,9 @@ const SignUp = () => {
             agreeTerms: true,
             isCertified: false
           }).then(async (response: AxiosResponse<number>) => {
-            setUserId(response.data)
-            setOauthId(oauthId)
+            await setIsSignInLoading(true)  // redirect를 막기위해 임시 방편으로 사용
+            await setUserId(response.data)
+            await setOauthId(oauthId)
             await setMessage('가입을 축하합니다🎉 에브리엔서와 함께 열공해봐요')
             await setIsSnackbarOpen(true)
             await router.push('/')
@@ -103,6 +122,7 @@ const SignUp = () => {
   }
 
 
+  if (isLoading) return <p>loading...</p>
 
   return (
     <MainContainer isHiddenHeaderAndFooterOnMobile={true}>
@@ -116,7 +136,9 @@ const SignUp = () => {
         <section className='space-y-8 text-base font-semibold text-gray-900 lg:mt-8 lg:text-xl'>
           <article className='space-y-3 lg:space-y-5'>
             <header>1. 전공을 선택해주세요.<br/><span className='text-xs text-gray-400 lg:text-sm'>가장 유사한 전공을 선택해주세요</span></header>
-            <MuiDeptClassComboBox setSelectedDept={setSelectedDept} />
+            {deptClassList &&
+              <MuiDeptClassComboBox deptClassList={deptClassList} setSelectedDept={setSelectedDept} />
+            }
           </article>
           <article className='space-y-3 lg:space-y-5'>
             <header>2. 사용할 닉네임을 입력해주세요.</header>

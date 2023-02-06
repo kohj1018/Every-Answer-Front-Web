@@ -45,7 +45,7 @@ const Home: NextPage = () => {
     <MainContainer>
       <SEO title='에브리엔서 - 대학생 전공질문 플랫폼' />
 
-      <main className='marginHeader pt-8 px-5 lg:pt-12 lg:mainWidthLimit'>
+      <main className='marginHeader min-h-screen-except-marginHeader pt-8 px-5 lg:pt-12 lg:mainWidthLimit'>
         {/* 메인 피드 */}
         <h2 className='text-xl font-semibold text-gray-900'>Q&A</h2>
         <section className='mt-4 space-y-2.5 lg:mt-6 lg:space-y-3.5'>
