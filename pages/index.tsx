@@ -20,7 +20,7 @@ const Home: NextPage = () => {
     {
       getNextPageParam: (lastPage) =>
         !lastPage.isLast ? lastPage.nextLastPostId : undefined,
-      staleTime: 10000 // 10초
+      // staleTime: 10000 // 10초
     }
   )
   const scrollY = useScrollYStore(state => state.scrollY) // 스크롤 위치 저장
