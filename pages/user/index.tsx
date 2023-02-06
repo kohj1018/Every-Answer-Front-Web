@@ -23,13 +23,13 @@ import { SERVICE_VERSION } from '../../utils/config'
 
 const User: NextPage = () => {
   const router = useRouter()
-  const { userId, oauthId } = useSignInInfoStore()
+  const { userId, oauthId } = useSignInInfoStore()  // TODO : 클라이언트 제품에서는 오류가 보이진 않으나 콘솔창에서 확인됨. 추후 해결 반드시 필요
   const { data: userData } = useQuery(
     ['userInfo', userId],
     () => getOtherUserById(userId!),
     {
       enabled: !!(userId && oauthId),
-      staleTime: 30000, // 30초
+      staleTime: 60000, // 60초
       refetchOnWindowFocus: false
     }
   )
@@ -62,16 +62,16 @@ const User: NextPage = () => {
           </article>
 
           <article className='mt-6 w-full flex justify-between gap-x-2 lg:mt-10 lg:gap-x-3.5'>
-            <BoxButton name='질문한 글' link='/'>
+            <BoxButton name='질문한 글' link={`/user/record/questionPosts/${userId}`}>
               <Edit3 className='w-5 h-5 text-gray-600' />
             </BoxButton>
-            <BoxButton name='답변한 글' link='/'>
+            <BoxButton name='답변한 글' link={`/user/record/answerPosts/${userId}`}>
               <CheckCircle className='w-5 h-5 text-gray-600' />
             </BoxButton>
-            <BoxButton name='좋아요한 글' link='/'>
+            <BoxButton name='좋아요한 글' link={`/user/record/likeAnswerPosts/${userId}`}>
               <ThumbsUp className='w-5 h-5 text-gray-600' />
             </BoxButton>
-            <BoxButton name='학교 인증하기' link='/'>
+            <BoxButton name='학교 인증' link='/'>
               <Pocket className='w-5 h-5 text-gray-600' />
             </BoxButton>
           </article>

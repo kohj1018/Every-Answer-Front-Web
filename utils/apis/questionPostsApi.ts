@@ -37,3 +37,9 @@ export const addQuestionPost = (addQuestionPostRequest: AddQuestionPostType) => 
   title: addQuestionPostRequest.title,
   content: addQuestionPostRequest.content
 })
+
+/** 유저가 작성한 질문글 모두 불러오기 */
+export const getQuestionPostListByUserId = async (userId: number): Promise<QuestionPostType[]> => {
+  const res = await ec2.get<QuestionPostType[]>(`/questionPosts/writtenByUser/${userId}`)
+  return res.data
+}

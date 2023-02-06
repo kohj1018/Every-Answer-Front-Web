@@ -19,3 +19,15 @@ export const addAnswerPost = (addAnswerPostRequest: AddAnswerPostType) => ec2.po
   likeNum: 0, // default 0
   content: addAnswerPostRequest.content
 })
+
+/** ID로 답변글 불러오기 */
+export const getAnswerPostById = async (answerPostId: number): Promise<AnswerPostType> => {
+  const res = await ec2.get<AnswerPostType>(`/answerPosts/${answerPostId}`)
+  return res.data
+}
+
+/** 유저가 작성한 답변글 모두 불러오기 */
+export const getAnswerPostListByUserId = async (userId: number): Promise<AnswerPostType[]> => {
+  const res = await ec2.get<AnswerPostType[]>(`/answerPosts/writtenByUser/${userId}`)
+  return res.data
+}

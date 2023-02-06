@@ -1,6 +1,7 @@
 import { ec2 } from '../apiConfig'
 import { AddLikeLogAnswerPostType } from '../../types/addRequestTypes'
 import { DeleteLikeLogAnswerPostType } from '../../types/deleteRequestTypes'
+import { AnswerPostType } from '../../types/responseTypes'
 
 /** 사용자가 추천을 눌렀는지 확인하기 (return이 true면 눌렀다는 거) */
 export const getLikeLogAnswerPost = async (answerPostId: number, userId: number): Promise<boolean> => {
@@ -16,3 +17,9 @@ export const addLikeLogAnswerPost = (addLikeLogAnswerPostRequest: AddLikeLogAnsw
 
 /** 추천 취소하기 (추천 기록 제거하기) */
 export const deleteLikeLogAnswerPost = (deleteLikeLogAnswerPostRequest: DeleteLikeLogAnswerPostType) => ec2.delete(`/likeLogAnswerPosts?answerPostId=${deleteLikeLogAnswerPostRequest.answerPostId}&userId=${deleteLikeLogAnswerPostRequest.userId}`)
+
+/** 유저가 좋아요한 답변글 모두 불러오기 */
+export const getLikedAnswerPostListByUserId = async (userId: number): Promise<AnswerPostType[]> => {
+  const res = await ec2.get<AnswerPostType[]>(`/likeLogAnswerPosts/likedByUser/${userId}`)
+  return res.data
+}

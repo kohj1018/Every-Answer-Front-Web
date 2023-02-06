@@ -59,7 +59,7 @@ export function Answer({ questionPostId, answerPostId, userId, authorId, nicknam
   }
 
   return (
-    <article className='p-4 space-y-3.5 bg-white lg:px-5 lg:py-6 lg:space-y-4'>
+    <article className='p-4 space-y-3.5 bg-white rounded-xl lg:px-5 lg:py-6 lg:space-y-4'>
       <header className='pb-3.5 flex items-center justify-between border-b border-gray-200'>
         <Link href={`/user/${authorId}`} className='space-y-0.5 text-sm lg:text-lg'>
           <p className='font-semibold text-gray-600'>{nickname}</p>
@@ -124,7 +124,7 @@ export function AnswerWithoutUserInfo({ answerPostId, authorId, nickname, deptNa
   }
 
   return (
-    <article className='p-4 space-y-3.5 bg-white lg:px-5 lg:py-6 lg:space-y-4'>
+    <article className='p-4 space-y-3.5 bg-white rounded-xl lg:px-5 lg:py-6 lg:space-y-4'>
       <header className='pb-3.5 flex items-center justify-between border-b border-gray-200'>
         <Link href={`/user/${authorId}`} className='space-y-0.5 text-sm lg:text-lg'>
           <p className='font-semibold text-gray-600'>{nickname}</p>

@@ -39,11 +39,11 @@ function MainFooter({ isHiddenHeaderAndFooterOnMobile }: Props) {
         <h1 className={'text-sm font-bold text-gray-700' + ' lg:text-lg'}>개인정보 및 서비스 약관</h1>
         <div className={'space-y-2 text-xs text-gray-500' + ' lg:text-sm lg:space-y-3'}>
           <div className='flex items-center space-x-1'>
-            <a href='https://www.naver.com' className='font-bold text-blue-500'>개인정보처리방침</a>
+            <a href='https://everyanswer.notion.site/61d8dab6c1334351ad94b705898dd774' className='font-bold text-blue-500'>개인정보처리방침</a>
             <ArrowUpRight className={'w-[1rem] h-[1rem] text-blue-300' + ' lg:w-[1.125rem] lg:h-[1.125rem]'} />
           </div>
-          <a href='/' className='block'>이용약관</a>
-          <Link href='/' className='block'>고객문의</Link>
+          <a href='https://everyanswer.notion.site/671d4d06945140539fc3bdb9539d4c57' className='block'>이용약관</a>
+          <Link href='/customerService' className='block'>고객문의</Link>
         </div>
       </article>
 
