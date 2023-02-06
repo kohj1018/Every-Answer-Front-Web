@@ -27,7 +27,7 @@ function MainFooter({ isHiddenHeaderAndFooterOnMobile }: Props) {
           />
         </div>
         <Link
-          href='/'
+          href='/search'
           className='hidden w-full pl-6 pr-4 py-3 items-center justify-between rounded-3xl bg-gray-50 lg:flex'
         >
           <p className='text-xs font-semibold text-gray-400'>궁금한 전공 질문을 검색해보세요</p>
