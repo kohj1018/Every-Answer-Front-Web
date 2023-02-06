@@ -32,7 +32,8 @@ module.exports = {
     '@typescript-eslint/restrict-plus-operands': 'off',
     'no-extra-boolean-cast': 'off',
     '@typescript-eslint/no-non-null-assertion': 'off',
-    '@typescript-eslint/restrict-template-expressions': 'off'
+    '@typescript-eslint/restrict-template-expressions': 'off',
+    'spaced-comment': 'off'
   },
   settings: {
     react: {

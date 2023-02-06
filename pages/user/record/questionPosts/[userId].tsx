@@ -25,7 +25,10 @@ const QuestionPostsRecord = () => {
       <main className='marginHeader px-5 py-4 space-y-4 lg:mainWidthLimit'>
         <Suspense fallback={<p>loading...</p>}>
           {questionPostList?.map((questionPost) =>
-            <Link href={`/question/${questionPost.questionPostId}`}>
+            <Link
+              key={questionPost.questionPostId}
+              href={`/question/${questionPost.questionPostId}`}
+            >
               <QuestionPreview questionPost={questionPost} />
             </Link>
           )}

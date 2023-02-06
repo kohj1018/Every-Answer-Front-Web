@@ -28,6 +28,7 @@ const LikeAnswerPostsRecord = () => {
         <Suspense fallback={<p>loading...</p>}>
           {answerPostList?.map((answerPost) =>
             <Link
+              key={answerPost.answerPostId}
               href={`/question/${answerPost.questionPostId}`}
               className='block'
             >
